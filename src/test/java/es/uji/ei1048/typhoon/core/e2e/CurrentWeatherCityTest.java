@@ -46,14 +46,13 @@ public class CurrentWeatherCityTest {
         assertNotEquals(ws, status);
     }
 
-    @Test
+    @Test(expected = NoCityFoundException.class)
     public void currentWeatherCity_invalid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException {
         //Given
         City city = new City("Minas Tirith");
         //When
         WeatherStatus status = sut.currentWeatherCity(city);
-        //Then
-        ex.expect(FileNotFoundException.class);
+        //Then Salta NoCityFoundException
     }
 
 }
