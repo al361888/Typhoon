@@ -14,17 +14,12 @@ public class TyphoonFacade {
         //Llamada al metodo de la clase CurrentWeather
         currentWeather = new CurrentWeather();
         return currentWeather.getCurrentWeatherAtCity(city);
-
-        //throw new UnsupportedOperationException("Unimplemented");
     }
 
     public WeatherStatus currentWeatherCoordinates(Coordinates coordinates) throws InvalidCoordinatesException{
         //Llamada al metodo de la clase CurrentWeather
         currentWeather = new CurrentWeather();
         return currentWeather.getCurrentWeatherAtCoordinates(coordinates);
-
-
-        // throw new UnsupportedOperationException("Unimplemented");
     }
 
 }

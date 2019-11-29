@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="es.uji.ei1048.typhoon.core.e2e.CurrentWeatherCityTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-11-29T16:04:17" hostname="DESKTOP-EMGFJ38" time="0.162">
+  <properties/>
+  <testcase name="currentWeatherCity_valid" classname="es.uji.ei1048.typhoon.core.e2e.CurrentWeatherCityTest" time="0.162"/>
+  <system-out><![CDATA[sun.net.www.protocol.http.HttpURLConnection$HttpInputStream@69ed4b09
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
