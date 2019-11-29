@@ -10,6 +10,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+
 import static org.junit.Assert.*;
 
 public class CurrentWeatherCityTest {
@@ -33,7 +37,7 @@ public class CurrentWeatherCityTest {
     }
 
     @Test
-    public void currentWeatherCity_valid() throws NoCityFoundException {
+    public void currentWeatherCity_valid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException {
         //Given
         City city = new City("Valencia");
         //When
@@ -43,13 +47,13 @@ public class CurrentWeatherCityTest {
     }
 
     @Test
-    public void currentWeatherCity_invalid() throws NoCityFoundException {
+    public void currentWeatherCity_invalid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException {
         //Given
         City city = new City("Minas Tirith");
         //When
         WeatherStatus status = sut.currentWeatherCity(city);
         //Then
-        ex.expect(NoCityFoundException.class);
+        ex.expect(FileNotFoundException.class);
     }
 
 }

@@ -3,11 +3,11 @@ package es.uji.ei1048.typhoon.weather;
 import java.util.Objects;
 
 public class WeatherStatus {
-    private float temp;
-    private float pressure;
-    private int humidity;
-    private float tempMin;
-    private float tempMax;
+    private double temp;
+    private double pressure;
+    private double humidity;
+    private double tempMin;
+    private double tempMax;
 
 
     public WeatherStatus(){
@@ -18,7 +18,7 @@ public class WeatherStatus {
         this.tempMax = 0;
     }
 
-    public WeatherStatus(float temp, float pressure, int humidity, float tempMin, float tempMax) {
+    public WeatherStatus(double temp, double pressure, double humidity, double tempMin, double tempMax) {
         this.temp = temp;
         this.pressure = pressure;
         this.humidity = humidity;
@@ -26,43 +26,43 @@ public class WeatherStatus {
         this.tempMax = tempMax;
     }
 
-    public float getTemp() {
+    public double getTemp() {
         return temp;
     }
 
-    public void setTemp(float temp) {
+    public void setTemp(double temp) {
         this.temp = temp;
     }
 
-    public float getPressure() {
+    public double getPressure() {
         return pressure;
     }
 
-    public void setPressure(float pressure) {
+    public void setPressure(double pressure) {
         this.pressure = pressure;
     }
 
-    public int getHumidity() {
+    public double getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(int humidity) {
+    public void setHumidity(double humidity) {
         this.humidity = humidity;
     }
 
-    public float getTempMin() {
+    public double getTempMin() {
         return tempMin;
     }
 
-    public void setTempMin(float tempMin) {
+    public void setTempMin(double tempMin) {
         this.tempMin = tempMin;
     }
 
-    public float getTempMax() {
+    public double getTempMax() {
         return tempMax;
     }
 
-    public void setTempMax(float tempMax) {
+    public void setTempMax(double tempMax) {
         this.tempMax = tempMax;
     }
 
@@ -71,15 +71,26 @@ public class WeatherStatus {
         if (this == o) return true;
         if (!(o instanceof WeatherStatus)) return false;
         WeatherStatus status = (WeatherStatus) o;
-        return Float.compare(status.getTemp(), getTemp()) == 0 &&
-                Float.compare(status.getPressure(), getPressure()) == 0 &&
-                getHumidity() == status.getHumidity() &&
-                Float.compare(status.getTempMin(), getTempMin()) == 0 &&
-                Float.compare(status.getTempMax(), getTempMax()) == 0;
+        return Double.compare(status.getTemp(), getTemp()) == 0 &&
+                Double.compare(status.getPressure(), getPressure()) == 0 &&
+                Double.compare(status.getHumidity(), getHumidity()) == 0 &&
+                Double.compare(status.getTempMin(), getTempMin()) == 0 &&
+                Double.compare(status.getTempMax(), getTempMax()) == 0;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(getTemp(), getPressure(), getHumidity(), getTempMin(), getTempMax());
+    }
+
+    @Override
+    public String toString() {
+        return "WeatherStatus{" +
+                "temp=" + temp +
+                ", pressure=" + pressure +
+                ", humidity=" + humidity +
+                ", tempMin=" + tempMin +
+                ", tempMax=" + tempMax +
+                '}';
     }
 }

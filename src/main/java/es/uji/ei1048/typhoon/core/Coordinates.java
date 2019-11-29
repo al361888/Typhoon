@@ -2,27 +2,27 @@ package es.uji.ei1048.typhoon.core;
 
 public class Coordinates implements Place {
 
-    private int x;
-    private int y;
+    private double x;
+    private double y;
 
-    public Coordinates(int x, int y) {
+    public Coordinates(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 }
