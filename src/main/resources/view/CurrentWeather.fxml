@@ -18,14 +18,13 @@
                   <TextField fx:id="nameCity" layoutX="118.0" layoutY="51.0" />
                   <Separator layoutX="60.0" layoutY="119.0" prefHeight="3.0" prefWidth="417.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="197.5" />
                   <Label layoutX="32.0" layoutY="221.0" text="Latitude" />
-                  <Label layoutX="209.0" layoutY="221.0" text="Longitud" />
-                  <TextField layoutX="32.0" layoutY="253.0" prefHeight="25.0" prefWidth="107.0" />
-                  <TextField layoutX="209.0" layoutY="253.0" prefHeight="17.0" prefWidth="107.0" />
-                  <Button fx:id="cityButton" layoutX="290.0" layoutY="51.0" mnemonicParsing="false" onAction="#enviar" text="Ok" />
-                  <Button layoutX="149.0" layoutY="253.0" mnemonicParsing="false" text="Ok" />
-                  <Button layoutX="322.0" layoutY="253.0" mnemonicParsing="false" text="Ok" />
+                  <Label layoutX="36.0" layoutY="286.0" text="Longitud" />
+                  <TextField fx:id="lat" layoutX="32.0" layoutY="253.0" prefHeight="25.0" prefWidth="107.0" />
+                  <TextField fx:id="lon" layoutX="32.0" layoutY="314.0" prefHeight="17.0" prefWidth="107.0" />
+                  <Button fx:id="cityButton" layoutX="290.0" layoutY="51.0" mnemonicParsing="false" onAction="#sendCurrentWeatherStatusCity" text="Ok" />
+                  <Button fx:id="coordButton" layoutX="70.0" layoutY="349.0" mnemonicParsing="false" onAction="#sendCurrentWeatherStatusCoord" text="Ok" />
                   <Label fx:id="weatherResultCity" layoutX="167.0" layoutY="106.0" text="Label" />
-                  <Label layoutX="179.0" layoutY="326.0" text="Label" />
+                  <Label fx:id="weatherStatusCoord" layoutX="278.0" layoutY="257.0" text="Label" />
                </children>
             </AnchorPane>
         </items>

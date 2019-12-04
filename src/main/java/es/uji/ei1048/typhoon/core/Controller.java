@@ -21,16 +21,37 @@ public class Controller {
     @FXML
     private Label weatherResultCity;
 
+    @FXML
+    private TextField lat;
+
+    @FXML
+    private TextField lon;
+
+    @FXML
+    private Button coordButton;
+
+    @FXML
+    private Label weatherStatusCoord;
+
+
     private Main main;
 
     public Controller() {
     }
 
     @FXML
-    private void enviar(ActionEvent event) throws UnsupportedEncodingException, NoCityFoundException, MalformedURLException {
+    private void sendCurrentWeatherStatusCity(ActionEvent event) throws UnsupportedEncodingException, NoCityFoundException, MalformedURLException {
         TyphoonFacade typhoonFacade = new TyphoonFacade();
         WeatherStatus ws = typhoonFacade.currentWeatherCity(new City(nameCity.getText()));
         weatherResultCity.setText(ws.toString());
+
+    }
+
+    @FXML
+    private void sendCurrentWeatherStatusCoord(ActionEvent event) throws UnsupportedEncodingException, MalformedURLException, InvalidCoordinatesException {
+        TyphoonFacade typhoonFacade = new TyphoonFacade();
+        WeatherStatus ws = typhoonFacade.currentWeatherCoordinates(new Coordinates(Double.parseDouble(lat.getText()), Double.parseDouble(lon.getText())));
+        weatherStatusCoord.setText(ws.toString());
 
     }
 
