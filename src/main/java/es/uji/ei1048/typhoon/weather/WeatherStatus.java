@@ -85,12 +85,11 @@ public class WeatherStatus {
 
     @Override
     public String toString() {
-        return "WeatherStatus{" +
-                "temp=" + temp +
-                ", pressure=" + pressure +
-                ", humidity=" + humidity +
-                ", tempMin=" + tempMin +
-                ", tempMax=" + tempMax +
-                '}';
+        return "temp=" + temp + '\n' +
+                "pressure=" + pressure + '\n'+
+                "humidity=" + humidity + '\n'+
+                "tempMin=" + tempMin + '\n' +
+                "tempMax=" + tempMax
+                ;
     }
 }
