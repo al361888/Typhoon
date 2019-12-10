@@ -11,6 +11,12 @@ public class Demo {
         TyphoonFacade typhoonFacade = new TyphoonFacade();
         WeatherStatus ws = typhoonFacade.currentWeatherCity(new City("Valencia"));
         System.out.println(ws.toString());
+        System.out.println("######Forecast#########");
+        for(int i = 0; i<=3; i++)
+            System.out.println("Day "+i+ ": " + typhoonFacade.forecastWeatherCity(new City("Valencia")).get(i).toString());
+
+
+
 
         //WeatherStatus ws2 = typhoonFacade.currentWeatherCoordinates(new Coordinates(10.6479, -74.2348));
         //System.out.println(ws2.toString());
