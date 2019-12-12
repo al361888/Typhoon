@@ -4,6 +4,7 @@ import es.uji.ei1048.typhoon.weather.WeatherStatus;
 import es.uji.ei1048.typhoon.weather.current.CurrentWeather;
 import es.uji.ei1048.typhoon.weather.current.ForecastWeather;
 
+import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.List;
@@ -13,7 +14,7 @@ public class TyphoonFacade {
     private CurrentWeather currentWeather;
     private ForecastWeather forecastWeather;
 
-    public WeatherStatus currentWeatherCity(City city) throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException {
+    public WeatherStatus currentWeatherCity(City city) throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException, FileNotFoundException {
         //Llamada al metodo de la clase CurrentWeather
         currentWeather = new CurrentWeather();
         return currentWeather.getCurrentWeatherAtCity(city);

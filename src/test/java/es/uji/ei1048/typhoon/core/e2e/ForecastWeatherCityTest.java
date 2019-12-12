@@ -51,7 +51,7 @@ public class ForecastWeatherCityTest {
         //Given
         City city = new City("Minas Tirith");
         //When
-        WeatherStatus status = sut.currentWeatherCity(city);
+        List<WeatherStatus> status = sut.forecastWeatherCity(city);
         //Then Salta NoCityFoundException
     }
 }

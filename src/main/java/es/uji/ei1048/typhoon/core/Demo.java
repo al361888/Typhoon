@@ -2,12 +2,13 @@ package es.uji.ei1048.typhoon.core;
 
 import es.uji.ei1048.typhoon.weather.WeatherStatus;
 
+import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 
 public class Demo {
 
-    public static void main(String[] args) throws UnsupportedEncodingException, NoCityFoundException, MalformedURLException, InvalidCoordinatesException {
+    public static void main(String[] args) throws UnsupportedEncodingException, NoCityFoundException, MalformedURLException, InvalidCoordinatesException, FileNotFoundException {
         TyphoonFacade typhoonFacade = new TyphoonFacade();
         WeatherStatus ws = typhoonFacade.currentWeatherCity(new City("Valencia"));
         System.out.println(ws.toString());

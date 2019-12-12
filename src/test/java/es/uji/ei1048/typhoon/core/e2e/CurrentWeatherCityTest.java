@@ -37,7 +37,7 @@ public class CurrentWeatherCityTest {
     }
 
     @Test
-    public void currentWeatherCity_valid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException {
+    public void currentWeatherCity_valid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException, FileNotFoundException {
         //Given
         City city = new City("Valencia");
         //When
@@ -46,8 +46,8 @@ public class CurrentWeatherCityTest {
         assertNotEquals(ws, status);
     }
 
-    @Test(expected = NoCityFoundException.class)
-    public void currentWeatherCity_invalid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException {
+    @Test(expected = FileNotFoundException.class)
+    public void currentWeatherCity_invalid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException, FileNotFoundException {
         //Given
         City city = new City("Minas Tirith");
         //When

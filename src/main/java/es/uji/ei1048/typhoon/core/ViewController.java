@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 
@@ -46,7 +47,7 @@ public class ViewController {
         try{
             ws = typhoonFacade.currentWeatherCity(new City(nameCity.getText()));
             weatherResultCity.setText(ws.toString());
-        }catch (NoCityFoundException e){
+        }catch (FileNotFoundException | NoCityFoundException e){
             weatherResultCity.setText("ERROR: Name city incorrect");
         }
 

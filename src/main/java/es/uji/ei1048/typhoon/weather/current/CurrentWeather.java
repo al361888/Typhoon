@@ -41,7 +41,7 @@ public class CurrentWeather {
      * @throws NoCityFoundException
      *
      */
-    public WeatherStatus getCurrentWeatherAtCity(City city) throws UnsupportedEncodingException, NoCityFoundException {
+    public WeatherStatus getCurrentWeatherAtCity(City city) throws UnsupportedEncodingException, NoCityFoundException, FileNotFoundException {
         //Llamada al server
         String apiUrl = apiBase + URLEncoder.encode(city.getName(), "utf-8") + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+lang;
         HttpURLConnection urlConnection = null;
