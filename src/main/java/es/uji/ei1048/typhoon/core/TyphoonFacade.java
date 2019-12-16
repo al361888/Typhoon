@@ -36,4 +36,10 @@ public class TyphoonFacade {
         return forecastWeather.getForecastWeatherAtCity(city);
         //throw new UnsupportedOperationException("Unimplemented");
     }
+
+    public List<WeatherStatus> forecastWeatherCoord(Coordinates coordinates) throws UnsupportedEncodingException, InvalidCoordinatesException{
+        forecastWeather = new ForecastWeather();
+        return forecastWeather.getForecastWeatherAtCoordinates(coordinates);
+        //throw new UnsupportedOperationException("Unimplemented");
+    }
 }

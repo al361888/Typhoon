@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.util.List;
 
 public class ViewController {
 
@@ -17,7 +18,10 @@ public class ViewController {
     private TextField nameCity;
 
     @FXML
-    private Button cityButton;
+    private Button cityCurrentButton;
+
+    @FXML
+    private Button cityForecastButton;
 
     @FXML
     private Label weatherResultCity;
@@ -29,7 +33,10 @@ public class ViewController {
     private TextField lon;
 
     @FXML
-    private Button coordButton;
+    private Button coordCurrentButton;
+
+    @FXML
+    private Button coordForecastButton;
 
     @FXML
     private Label weatherStatusCoord;
@@ -42,27 +49,40 @@ public class ViewController {
     }
 
     @FXML
-    private void sendCurrentWeatherStatusCity(ActionEvent event) throws UnsupportedEncodingException, MalformedURLException{
+    private void sendCurrentWeatherStatusCity(ActionEvent event) throws UnsupportedEncodingException, MalformedURLException, FileNotFoundException, NoCityFoundException {
         WeatherStatus ws;
-        try{
-            ws = typhoonFacade.currentWeatherCity(new City(nameCity.getText()));
-            weatherResultCity.setText(ws.toString());
-        }catch (FileNotFoundException | NoCityFoundException e){
-            weatherResultCity.setText("ERROR: Name city incorrect");
-        }
+        ws = typhoonFacade.currentWeatherCity(new City(nameCity.getText()));
+        weatherResultCity.setText(ws.toString());
 
 
     }
 
     @FXML
-    private void sendCurrentWeatherStatusCoord(ActionEvent event) throws MalformedURLException{
+    private void sendCurrentWeatherStatusCoord(ActionEvent event) throws MalformedURLException, InvalidCoordinatesException {
         WeatherStatus ws;
-        try{
-            ws = typhoonFacade.currentWeatherCoordinates(new Coordinates(Double.parseDouble(lat.getText()), Double.parseDouble(lon.getText())));
-            weatherStatusCoord.setText(ws.toString());
-        }catch (InvalidCoordinatesException e){
-            weatherStatusCoord.setText("ERROR: Invalid coordinates");
-        }
+        ws = typhoonFacade.currentWeatherCoordinates(new Coordinates(Double.parseDouble(lat.getText()), Double.parseDouble(lon.getText())));
+        weatherStatusCoord.setText(ws.toString());
+
+
+    }
+
+    @FXML
+    private void sendForecastWeatherStatusCity(ActionEvent event) throws UnsupportedEncodingException, MalformedURLException, FileNotFoundException, NoCityFoundException {
+        List<WeatherStatus> ws;
+        ws = typhoonFacade.forecastWeatherCity(new City(nameCity.getText()));
+        for(int i=0; i<ws.size();i++)
+            weatherResultCity.setText(ws.toString());
+
+
+    }
+
+    @FXML
+    private void sendForecastWeatherStatusCoord(ActionEvent event) throws MalformedURLException, InvalidCoordinatesException, UnsupportedEncodingException {
+        List<WeatherStatus> ws;
+        ws = typhoonFacade.forecastWeatherCoord(new Coordinates(Double.parseDouble(lat.getText()), Double.parseDouble(lon.getText())));
+        for(int i=0; i<ws.size();i++)
+            weatherResultCity.setText(ws.toString());
+
 
 
     }

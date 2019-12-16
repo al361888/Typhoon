@@ -51,8 +51,9 @@ public class CurrentWeather {
             return fetchJsonData(connection(apiUrl));
         } catch (IOException e) {
             e.printStackTrace();
+            throw new NoCityFoundException();
         }
-        throw new NoCityFoundException();
+
     }
 
     /**

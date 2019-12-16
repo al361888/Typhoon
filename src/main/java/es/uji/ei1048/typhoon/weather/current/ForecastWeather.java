@@ -19,7 +19,7 @@ import java.util.List;
 public class ForecastWeather {
     private String apikey = "af04e9aa5c54a3a096f2178fc79f10c2";
     private String apiBase = "http://api.openweathermap.org/data/2.5/weather?q=";
-    private String apiCoord = "http://api.openweathermap.org/data/2.5/weather?";
+    private String apiCoord = "http://api.openweathermap.org/data/2.5/forecast?";
     private String apiForecast = "http://api.openweathermap.org/data/2.5/forecast?q=";
     private String units = "metric"; // metric
     private String lang = "en";
