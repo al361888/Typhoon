@@ -27,6 +27,14 @@ public class ViewController {
     private Label weatherResultCity;
 
     @FXML
+    private Label day1City;
+    @FXML
+    private Label day2City;
+    @FXML
+    private Label day3City;
+
+
+    @FXML
     private TextField lat;
 
     @FXML
@@ -40,6 +48,13 @@ public class ViewController {
 
     @FXML
     private Label weatherStatusCoord;
+
+    @FXML
+    private Label day1Coord;
+    @FXML
+    private Label day2Coord;
+    @FXML
+    private Label day3Coord;
 
 
     private Main main;
@@ -70,8 +85,9 @@ public class ViewController {
     private void sendForecastWeatherStatusCity(ActionEvent event) throws UnsupportedEncodingException, MalformedURLException, FileNotFoundException, NoCityFoundException {
         List<WeatherStatus> ws;
         ws = typhoonFacade.forecastWeatherCity(new City(nameCity.getText()));
-        for(int i=0; i<ws.size();i++)
-            weatherResultCity.setText(ws.toString());
+        day1City.setText("Day 1: \n"+ws.get(1).toString());
+        day2City.setText("Day 2: \n"+ws.get(2).toString());
+        day3City.setText("Day 3: \n"+ws.get(3).toString());
 
 
     }
@@ -80,8 +96,9 @@ public class ViewController {
     private void sendForecastWeatherStatusCoord(ActionEvent event) throws MalformedURLException, InvalidCoordinatesException, UnsupportedEncodingException {
         List<WeatherStatus> ws;
         ws = typhoonFacade.forecastWeatherCoord(new Coordinates(Double.parseDouble(lat.getText()), Double.parseDouble(lon.getText())));
-        for(int i=0; i<ws.size();i++)
-            weatherResultCity.setText(ws.toString());
+        day1Coord.setText("Day 1: \n"+ws.get(1).toString());
+        day2Coord.setText("Day 2: \n"+ws.get(2).toString());
+        day3Coord.setText("Day 3: \n"+ws.get(3).toString());
 
 
 

@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uji.ei1048.typhoon.core.ViewController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uji.ei1048.typhoon.core.ViewController">
     <children>
         <SplitPane dividerPositions="0.2525083612040134" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
@@ -21,17 +21,23 @@
                     <children>
                         <Label layoutX="32.0" layoutY="55.0" text="City Name" />
                         <TextField fx:id="nameCity" layoutX="119.0" layoutY="51.0" />
-                        <Separator layoutY="220.0" prefHeight="0.0" prefWidth="444.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="220.0" />
-                        <Label layoutX="32.0" layoutY="221.0" text="Latitude" />
-                        <Label layoutX="36.0" layoutY="286.0" text="Longitud" />
-                        <TextField fx:id="lat" layoutX="32.0" layoutY="253.0" prefHeight="25.0" prefWidth="107.0" />
-                        <TextField fx:id="lon" layoutX="32.0" layoutY="314.0" prefHeight="17.0" prefWidth="107.0" />
+                        <Separator layoutY="276.0" prefHeight="0.0" prefWidth="444.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="276.0" />
+                        <Label layoutX="33.0" layoutY="299.0" text="Latitude" />
+                        <Label layoutX="30.0" layoutY="384.0" text="Longitud" />
+                        <TextField fx:id="lat" layoutX="29.0" layoutY="338.0" prefHeight="25.0" prefWidth="107.0" />
+                        <TextField fx:id="lon" layoutX="29.0" layoutY="417.0" prefHeight="17.0" prefWidth="107.0" />
                         <Button fx:id="cityCurrentButton" layoutX="290.0" layoutY="51.0" mnemonicParsing="false" onAction="#sendCurrentWeatherStatusCity" text="Current" />
-                        <Button fx:id="coordCurrentButton" layoutX="32.0" layoutY="349.0" mnemonicParsing="false" onAction="#sendCurrentWeatherStatusCoord" text="Current" />
+                        <Button fx:id="coordCurrentButton" layoutX="26.0" layoutY="468.0" mnemonicParsing="false" onAction="#sendCurrentWeatherStatusCoord" text="Current" />
                         <Label fx:id="weatherResultCity" layoutX="139.0" layoutY="76.0" text="Label" />
-                        <Label fx:id="weatherStatusCoord" layoutX="208.0" layoutY="238.0" text="Label" />
+                        <Label fx:id="weatherStatusCoord" layoutX="250.0" layoutY="330.0" text="Label" />
                   <Button fx:id="cityForecastButton" layoutX="369.0" layoutY="51.0" mnemonicParsing="false" onAction="#sendForecastWeatherStatusCity" text="Forecast" />
-                  <Button fx:id="coordForecastButton" layoutX="109.0" layoutY="349.0" mnemonicParsing="false" onAction="#sendForecastWeatherStatusCoord" text="Forecast" />
+                  <Button fx:id="coordForecastButton" layoutX="103.0" layoutY="468.0" mnemonicParsing="false" onAction="#sendForecastWeatherStatusCoord" text="Forecast" />
+                  <Label fx:id="day2City" layoutX="215.0" layoutY="128.0" text="Label" />
+                  <Label fx:id="day1City" layoutX="54.0" layoutY="128.0" text="Label" />
+                  <Label fx:id="day3City" layoutX="386.0" layoutY="128.0" text="Label" />
+                  <Label fx:id="day1Coord" layoutX="194.0" layoutY="409.0" text="Label" />
+                  <Label fx:id="day2Coord" layoutX="355.0" layoutY="409.0" text="Label" />
+                  <Label fx:id="day3Coord" layoutX="510.0" layoutY="409.0" text="Label" />
                     </children>
                 </AnchorPane>
             </items>
