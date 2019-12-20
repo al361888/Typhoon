@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 
@@ -46,7 +47,7 @@ public class ViewController {
         try{
             ws = typhoonFacade.currentWeatherCity(new City(nameCity.getText()));
             weatherResultCity.setText(ws.toString());
-        }catch (NoCityFoundException e){
+        }catch (NoCityFoundException | IOException e){
             weatherResultCity.setText("ERROR: Name city incorrect");
         }
 
@@ -58,7 +59,7 @@ public class ViewController {
         try{
             ws = typhoonFacade.currentWeatherCoordinates(new Coordinates(Double.parseDouble(lat.getText()), Double.parseDouble(lon.getText())));
             weatherStatusCoord.setText(ws.toString());
-        }catch (InvalidCoordinatesException e){
+        }catch (InvalidCoordinatesException | IOException e){
             weatherStatusCoord.setText("ERROR: Invalid coordinates");
         }
 

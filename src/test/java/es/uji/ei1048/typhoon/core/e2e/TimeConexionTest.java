@@ -1,5 +1,6 @@
 package es.uji.ei1048.typhoon.core.e2e;
 
+import es.uji.ei1048.typhoon.core.ICurrentWeather;
 import es.uji.ei1048.typhoon.core.TyphoonFacade;
 import org.junit.After;
 import org.junit.Before;
@@ -14,11 +15,12 @@ public class TimeConexionTest {
 
     @Before
     public void setUp() throws Exception {
-        sut = new TyphoonFacade();
+        sut = new TyphoonFacade(mock(ICurrentWeather.class));
     }
 
     @After
     public void tearDown() throws Exception {
+        sut = null;
 
     }
 

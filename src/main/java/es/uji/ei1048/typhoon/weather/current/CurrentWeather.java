@@ -1,9 +1,6 @@
 package es.uji.ei1048.typhoon.weather.current;
 
-import es.uji.ei1048.typhoon.core.City;
-import es.uji.ei1048.typhoon.core.Coordinates;
-import es.uji.ei1048.typhoon.core.InvalidCoordinatesException;
-import es.uji.ei1048.typhoon.core.NoCityFoundException;
+import es.uji.ei1048.typhoon.core.*;
 import es.uji.ei1048.typhoon.weather.WeatherStatus;
 import org.json.JSONObject;
 
@@ -20,7 +17,7 @@ import java.net.URLEncoder;
  * Clase que obtiene el tiempo actual dadas un nombre de ciudad o unas coordenadas.
  */
 
-public class CurrentWeather {
+public class CurrentWeather implements ICurrentWeather {
 
     private String apikey = "af04e9aa5c54a3a096f2178fc79f10c2";
     private String apiBase = "http://api.openweathermap.org/data/2.5/weather?q=";
@@ -41,16 +38,14 @@ public class CurrentWeather {
      * @throws NoCityFoundException
      *
      */
-    public WeatherStatus getCurrentWeatherAtCity(City city) throws UnsupportedEncodingException, NoCityFoundException {
+    @Override
+    public WeatherStatus getCurrentWeatherAtCity(City city) throws IOException, NoCityFoundException {
         //Llamada al server
         String apiUrl = apiBase + URLEncoder.encode(city.getName(), "utf-8") + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+lang;
-        WeatherStatus response = connection(apiUrl);
-        if (response != null){
-            return response;
-        }
-        else {
-            throw new NoCityFoundException();
-        }
+        InputStream response = connection(apiUrl);
+        if (response != null) return fetchJsonData(response);
+        else throw new NoCityFoundException();
+
     }
 
     /**
@@ -59,16 +54,18 @@ public class CurrentWeather {
      * @return WeatherStatus: Devuelve el estado actual del tiempo dadas unas coordenadas
      * @throws InvalidCoordinatesException
      */
-    public WeatherStatus getCurrentWeatherAtCoordinates(Coordinates coord) throws InvalidCoordinatesException {
+    @Override
+    public WeatherStatus getCurrentWeatherAtCoordinates(Coordinates coord) throws InvalidCoordinatesException, IOException {
         //Llamada al server
         String apiUrl = apiCoord + "lat=" + coord.getX() + "&lon=" + coord.getY() + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+ lang;
-        WeatherStatus response = connection(apiUrl);
-        if (response != null) return response;
+        InputStream response = connection(apiUrl);
+        if (response != null) return fetchJsonData(response);
 
         else throw new InvalidCoordinatesException();
     }
 
-    private WeatherStatus connection(String apiUrl) {
+    @Override
+    public InputStream connection(String apiUrl) {
         HttpURLConnection urlConnection = null;
         try {//Conexión con la API
             URL url = new URL(apiUrl);
@@ -80,7 +77,7 @@ public class CurrentWeather {
                 e.printStackTrace();
             }
             //Llamada a la funcion que gestiona el JSON
-            return fetchJsonData(response);
+            return response;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -93,7 +90,8 @@ public class CurrentWeather {
      * @return WeatherStatus: Devuelve los datos del InputStream convertidos en un objeto WeatherStatus
      * @throws IOException
      */
-    private WeatherStatus fetchJsonData(InputStream inputStream) throws IOException {
+    @Override
+    public WeatherStatus fetchJsonData(InputStream inputStream) throws IOException {
         BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
         StringBuilder responseStrBuilder = new StringBuilder();
 
