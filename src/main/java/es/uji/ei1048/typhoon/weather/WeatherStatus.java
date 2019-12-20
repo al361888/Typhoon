@@ -1,5 +1,7 @@
 package es.uji.ei1048.typhoon.weather;
 
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class WeatherStatus {
@@ -9,15 +11,19 @@ public class WeatherStatus {
     private double humidity;
     private double tempMin;
     private double tempMax;
+    private double windSpeed;
+    private LocalTime time;
 
 
-    public WeatherStatus(String description, double temp, double pressure, double humidity, double tempMin, double tempMax) {
+    public WeatherStatus(String description, double temp, double pressure, double humidity, double tempMin, double tempMax, double windSpeed) {
+        this.time = LocalTime.now();
         this.description = description;
         this.temp = temp;
         this.pressure = pressure;
         this.humidity = humidity;
         this.tempMin = tempMin;
         this.tempMax = tempMax;
+        this.windSpeed = windSpeed;
     }
 
     public String getDescription() {
@@ -68,6 +74,22 @@ public class WeatherStatus {
         this.tempMax = tempMax;
     }
 
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    public double getWindSpeed() {
+        return windSpeed;
+    }
+
+    public void setWindSpeed(double windSpeed) {
+        this.windSpeed = windSpeed;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -78,6 +100,7 @@ public class WeatherStatus {
                 Double.compare(that.humidity, humidity) == 0 &&
                 Double.compare(that.tempMin, tempMin) == 0 &&
                 Double.compare(that.tempMax, tempMax) == 0 &&
+                Double.compare(that.windSpeed, windSpeed) == 0 &&
                 Objects.equals(description, that.description);
     }
 
@@ -88,12 +111,14 @@ public class WeatherStatus {
 
     @Override
     public String toString() {
-        return "Description= " +description+ '\n'+
-                "Temperature= " + temp + '\n' +
-                "Pressure= " + pressure + '\n'+
-                "Humidity= " + humidity + '\n'+
-                "Temperature Min= " + tempMin + '\n' +
-                "Temperature Max= " + tempMax
-                ;
+        return "Description: " +description+ '\n'+
+                "Temperature: " + temp + '\n' +
+                "Pressure: " + pressure + '\n'+
+                "Humidity: " + humidity + '\n'+
+                "Temperature Min: " + tempMin + '\n' +
+                "Temperature Max: " + tempMax + '\n' +
+                "Wind speed: " + windSpeed + '\n' +
+                "Last call: " + time.toString();
+
     }
 }

@@ -47,6 +47,7 @@ public class CurrentWeather {
         HttpURLConnection urlConnection = null;
         try {
             //Llamada a la funcion que gestiona el inputStream para sacar los datos
+            //Llamada a la funcion que gestiona el JSON
             return fetchJsonData(connection(apiUrl));
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,11 +67,12 @@ public class CurrentWeather {
         HttpURLConnection urlConnection = null;
         try {
             //Llamada a la funcion que gestiona el inputStream para sacar los datos
+            //Llamada a la funcion que gestiona el JSON
             return fetchJsonData(connection(apiUrl));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //Llamada a la funcion que gestiona el JSON
+
         throw new InvalidCoordinatesException();
     }
 
@@ -113,9 +115,11 @@ public class CurrentWeather {
 
         JSONObject main = jsonObject.getJSONObject("main");
         JSONObject weather = jsonObject.getJSONArray("weather").getJSONObject(0);
+        JSONObject wind = jsonObject.getJSONObject("wind");
+
 
         WeatherStatus status = new WeatherStatus(weather.getString("main"), main.getDouble("temp"), main.getDouble("pressure"), main.getDouble("humidity"),
-                main.getDouble("temp_min"), main.getDouble("temp_max"));
+                main.getDouble("temp_min"), main.getDouble("temp_max"), wind.getDouble("speed"));
 
         return status;
     }
