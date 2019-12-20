@@ -21,9 +21,6 @@ public class CurrentWeatherCityTest {
     private TyphoonFacade sut;
     private WeatherStatus ws;
 
-    @Rule
-    public final ExpectedException ex = ExpectedException.none();
-
     @Before
     public void setUp() throws Exception {
         sut = new TyphoonFacade();
@@ -46,7 +43,7 @@ public class CurrentWeatherCityTest {
         assertNotEquals(ws, status);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = NoCityFoundException.class)
     public void currentWeatherCity_invalid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException {
         //Given
         City city = new City("Minas Tirith");

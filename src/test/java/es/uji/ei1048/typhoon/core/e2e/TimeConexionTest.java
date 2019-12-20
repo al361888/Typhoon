@@ -9,12 +9,12 @@ import static org.mockito.Mockito.*;
 
 public class TimeConexionTest {
 
-    private TyphoonFacade typhoonFacade;
+    private TyphoonFacade sut;
 
 
     @Before
     public void setUp() throws Exception {
-        typhoonFacade = mock(TyphoonFacade.class);
+        sut = new TyphoonFacade();
     }
 
     @After

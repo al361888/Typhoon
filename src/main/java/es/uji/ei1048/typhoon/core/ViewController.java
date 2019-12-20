@@ -50,7 +50,6 @@ public class ViewController {
             weatherResultCity.setText("ERROR: Name city incorrect");
         }
 
-
     }
 
     @FXML

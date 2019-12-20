@@ -44,15 +44,13 @@ public class CurrentWeather {
     public WeatherStatus getCurrentWeatherAtCity(City city) throws UnsupportedEncodingException, NoCityFoundException {
         //Llamada al server
         String apiUrl = apiBase + URLEncoder.encode(city.getName(), "utf-8") + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+lang;
-        HttpURLConnection urlConnection = null;
-        try {
-            //Llamada a la funcion que gestiona el inputStream para sacar los datos
-            //Llamada a la funcion que gestiona el JSON
-            return fetchJsonData(connection(apiUrl));
-        } catch (IOException e) {
-            e.printStackTrace();
+        WeatherStatus response = connection(apiUrl);
+        if (response != null){
+            return response;
         }
-        throw new NoCityFoundException();
+        else {
+            throw new NoCityFoundException();
+        }
     }
 
     /**
@@ -64,37 +62,29 @@ public class CurrentWeather {
     public WeatherStatus getCurrentWeatherAtCoordinates(Coordinates coord) throws InvalidCoordinatesException {
         //Llamada al server
         String apiUrl = apiCoord + "lat=" + coord.getX() + "&lon=" + coord.getY() + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+ lang;
-        HttpURLConnection urlConnection = null;
-        try {
-            //Llamada a la funcion que gestiona el inputStream para sacar los datos
-            //Llamada a la funcion que gestiona el JSON
-            return fetchJsonData(connection(apiUrl));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        WeatherStatus response = connection(apiUrl);
+        if (response != null) return response;
 
-        throw new InvalidCoordinatesException();
+        else throw new InvalidCoordinatesException();
     }
 
-    /**
-     *
-     * @param apiUrl
-     * @return InputStream: Devuelve los datos de la conexión con el servidor en un InputStream
-     * @throws MalformedURLException
-     */
-    public InputStream connection(String apiUrl) throws MalformedURLException {
-        URL url = new URL(apiUrl);
+    private WeatherStatus connection(String apiUrl) {
         HttpURLConnection urlConnection = null;
-        InputStream response = null;
-        try {
-            urlConnection = (HttpURLConnection) url.openConnection();
-            response = urlConnection.getInputStream();
+        try {//Conexión con la API
+            URL url = new URL(apiUrl);
+            InputStream response = null;
+            try {
+                urlConnection = (HttpURLConnection) url.openConnection();
+                response = urlConnection.getInputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //Llamada a la funcion que gestiona el JSON
+            return fetchJsonData(response);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return response;
-
+        return null;
     }
 
     /**
