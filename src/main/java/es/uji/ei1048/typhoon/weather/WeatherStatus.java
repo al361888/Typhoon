@@ -14,6 +14,8 @@ public class WeatherStatus {
     private double windSpeed;
     private LocalTime time;
 
+    public WeatherStatus() {
+    }
 
     public WeatherStatus(String description, double temp, double pressure, double humidity, double tempMin, double tempMax, double windSpeed) {
         this.time = LocalTime.now();

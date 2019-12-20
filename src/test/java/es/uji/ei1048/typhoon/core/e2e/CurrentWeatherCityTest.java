@@ -46,7 +46,7 @@ public class CurrentWeatherCityTest {
         assertNotEquals(ws, status);
     }
 
-    @Test(expected = NoCityFoundException.class)
+    @Test(expected = NullPointerException.class)
     public void currentWeatherCity_invalid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException {
         //Given
         City city = new City("Minas Tirith");
