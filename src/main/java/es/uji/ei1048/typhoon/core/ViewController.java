@@ -68,6 +68,9 @@ public class ViewController {
         WeatherStatus ws;
         ws = typhoonFacade.currentWeatherCity(new City(nameCity.getText()));
         weatherResultCity.setText(ws.toString());
+        day1City.setText("");
+        day2City.setText("");
+        day3City.setText("");
 
 
     }
@@ -77,6 +80,9 @@ public class ViewController {
         WeatherStatus ws;
         ws = typhoonFacade.currentWeatherCoordinates(new Coordinates(Double.parseDouble(lat.getText()), Double.parseDouble(lon.getText())));
         weatherStatusCoord.setText(ws.toString());
+        day1Coord.setText("");
+        day2Coord.setText("");
+        day3Coord.setText("");
 
 
     }
@@ -88,6 +94,7 @@ public class ViewController {
         day1City.setText("Day 1: \n"+ws.get(1).toString());
         day2City.setText("Day 2: \n"+ws.get(2).toString());
         day3City.setText("Day 3: \n"+ws.get(3).toString());
+        weatherResultCity.setText("");
 
 
     }
@@ -99,7 +106,7 @@ public class ViewController {
         day1Coord.setText("Day 1: \n"+ws.get(1).toString());
         day2Coord.setText("Day 2: \n"+ws.get(2).toString());
         day3Coord.setText("Day 3: \n"+ws.get(3).toString());
-
+        weatherStatusCoord.setText("");
 
 
     }

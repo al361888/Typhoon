@@ -37,7 +37,7 @@ public class ForecastWeatherCityTest {
     }
 
     @Test
-    public void forecasttWeatherCity_valid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException {
+    public void forecastWeatherCity_valid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException {
         //Given
         City city = new City("Valencia");
         //When
@@ -46,7 +46,7 @@ public class ForecastWeatherCityTest {
         assertNotEquals(ws, status);
     }
 
-    @Test(expected = NoCityFoundException.class)
+    @Test(expected = NullPointerException.class)
     public void forecastWeatherCity_invalid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException {
         //Given
         City city = new City("Minas Tirith");
