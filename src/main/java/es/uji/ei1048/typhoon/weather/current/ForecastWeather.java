@@ -36,18 +36,12 @@ public class ForecastWeather {
      * @throws NoCityFoundException
      *
      */
-    public List<WeatherStatus> getForecastWeatherAtCity(City city) throws UnsupportedEncodingException, NoCityFoundException {
+    public List<WeatherStatus> getForecastWeatherAtCity(City city) throws IOException, NoCityFoundException {
         //Llamada al server
         String apiUrl = apiForecast + URLEncoder.encode(city.getName(), "utf-8") + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+lang;
-        HttpURLConnection urlConnection = null;
-        try {
-            //Llamada a la funcion que gestiona el inputStream para sacar los datos
-            //Llamada a la funcion que gestiona el JSON
-            return fetchJsonData(connection(apiUrl));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        throw new NoCityFoundException();
+        InputStream response = connection(apiUrl);
+        if(response!=null) return fetchJsonData(response);
+        else throw new NoCityFoundException();
     }
 
     /**
@@ -56,19 +50,12 @@ public class ForecastWeather {
      * @return WeatherStatus: Devuelve el estado actual del tiempo dadas unas coordenadas
      * @throws InvalidCoordinatesException
      */
-    public List<WeatherStatus> getForecastWeatherAtCoordinates(Coordinates coord) throws InvalidCoordinatesException {
+    public List<WeatherStatus> getForecastWeatherAtCoordinates(Coordinates coord) throws InvalidCoordinatesException, IOException {
         //Llamada al server
         String apiUrl = apiCoord + "lat=" + coord.getX() + "&lon=" + coord.getY() + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+ lang;
-        HttpURLConnection urlConnection = null;
-        try {
-            //Llamada a la funcion que gestiona el inputStream para sacar los datos
-            //Llamada a la funcion que gestiona el JSON
-            return fetchJsonData(connection(apiUrl));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        throw new InvalidCoordinatesException();
+        InputStream response = connection(apiUrl);
+        if(response!=null) return fetchJsonData(response);
+        else throw new InvalidCoordinatesException();
     }
 
     /**
@@ -84,11 +71,12 @@ public class ForecastWeather {
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
             response = urlConnection.getInputStream();
+            return response;
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return response;
+        return null;
 
     }
 

@@ -10,6 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class ForecastWeatherCityTest {
     }
 
     @Test
-    public void forecastWeatherCity_valid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException {
+    public void forecastWeatherCity_valid() throws NoCityFoundException, IOException {
         //Given
         City city = new City("Valencia");
         //When
@@ -46,8 +47,8 @@ public class ForecastWeatherCityTest {
         assertNotEquals(ws, status);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void forecastWeatherCity_invalid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException {
+    @Test(expected = NoCityFoundException.class)
+    public void forecastWeatherCity_invalid() throws NoCityFoundException, IOException {
         //Given
         City city = new City("Minas Tirith");
         //When

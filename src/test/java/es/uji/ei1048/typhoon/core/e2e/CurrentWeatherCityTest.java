@@ -12,6 +12,7 @@ import org.junit.rules.ExpectedException;
 import org.mockito.internal.matchers.Null;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 
@@ -38,7 +39,7 @@ public class CurrentWeatherCityTest {
     }
 
     @Test
-    public void currentWeatherCity_valid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException, FileNotFoundException {
+    public void currentWeatherCity_valid() throws NoCityFoundException, IOException {
         //Given
         City city = new City("Valencia");
         //When
@@ -47,8 +48,8 @@ public class CurrentWeatherCityTest {
         assertNotEquals(ws, status);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void currentWeatherCity_invalid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException, FileNotFoundException{
+    @Test(expected = NoCityFoundException.class)
+    public void currentWeatherCity_invalid() throws NoCityFoundException, IOException {
         //Given
         City city = new City("Minas Tirith");
         //When

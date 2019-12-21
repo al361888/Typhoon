@@ -8,6 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class ForecastWeatherCoordinatesTest {
     }
 
     @Test
-    public void forecastWeatherCoord_valid() throws UnsupportedEncodingException, MalformedURLException, InvalidCoordinatesException {
+    public void forecastWeatherCoord_valid() throws IOException, InvalidCoordinatesException {
         //Given
         Coordinates coord = new Coordinates(10, -10);
         //When
@@ -44,8 +45,8 @@ public class ForecastWeatherCoordinatesTest {
         assertNotEquals(ws, status);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void forecastWeatherCoord_invalid() throws UnsupportedEncodingException, MalformedURLException, InvalidCoordinatesException {
+    @Test(expected = InvalidCoordinatesException.class)
+    public void forecastWeatherCoord_invalid() throws IOException, InvalidCoordinatesException {
         //Given
         Coordinates coord = new Coordinates(100000, -1000000);
         //When

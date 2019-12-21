@@ -8,6 +8,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 public class CurrentWeatherCoordinatesTest {
@@ -31,7 +33,7 @@ public class CurrentWeatherCoordinatesTest {
     }
 
     @Test
-    public void currentWeatherCity_valid() throws InvalidCoordinatesException {
+    public void currentWeatherCity_valid() throws InvalidCoordinatesException, IOException {
         //Given
         Coordinates coord = new Coordinates(10, -10);
         //When
@@ -40,8 +42,8 @@ public class CurrentWeatherCoordinatesTest {
         assertNotEquals(ws, status);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void currentWeatherCity_invalid() throws InvalidCoordinatesException {
+    @Test(expected = InvalidCoordinatesException.class)
+    public void currentWeatherCity_invalid() throws InvalidCoordinatesException, IOException {
         //Given
         Coordinates coord = new Coordinates(100000, -1000000);
         //When
