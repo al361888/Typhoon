@@ -9,18 +9,17 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mockito.internal.matchers.Null;
 
-import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
 
-public class CurrentWeatherCityTest {
-
+public class ForecastWeatherCityTest {
     private TyphoonFacade sut;
-    private WeatherStatus ws;
+    private List<WeatherStatus> ws;
 
     @Rule
     public final ExpectedException ex = ExpectedException.none();
@@ -28,7 +27,7 @@ public class CurrentWeatherCityTest {
     @Before
     public void setUp() throws Exception {
         sut = new TyphoonFacade();
-        ws = new WeatherStatus();
+        ws = new ArrayList<WeatherStatus>();
     }
 
     @After
@@ -38,22 +37,21 @@ public class CurrentWeatherCityTest {
     }
 
     @Test
-    public void currentWeatherCity_valid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException, FileNotFoundException {
+    public void forecastWeatherCity_valid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException {
         //Given
         City city = new City("Valencia");
         //When
-        WeatherStatus status = sut.currentWeatherCity(city);
+        List<WeatherStatus> status = sut.forecastWeatherCity(city);
         //Then
         assertNotEquals(ws, status);
     }
 
     @Test(expected = NullPointerException.class)
-    public void currentWeatherCity_invalid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException, FileNotFoundException{
+    public void forecastWeatherCity_invalid() throws NoCityFoundException, UnsupportedEncodingException, MalformedURLException {
         //Given
         City city = new City("Minas Tirith");
         //When
-        WeatherStatus status = sut.currentWeatherCity(city);
+        List<WeatherStatus> status = sut.forecastWeatherCity(city);
         //Then Salta NoCityFoundException
     }
-
 }

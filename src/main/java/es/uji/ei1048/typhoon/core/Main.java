@@ -52,7 +52,7 @@ public class Main extends Application {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/CurrentWeather.fxml"));
+            loader.setLocation(getClass().getResource("/view/ForecastWeather.fxml"));
             AnchorPane currentWeatherOverview = (AnchorPane) loader.load();
 
             // Set person overview into the center of root layout.

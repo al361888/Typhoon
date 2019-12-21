@@ -8,12 +8,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static org.junit.Assert.*;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CurrentWeatherCoordinatesTest {
+import static org.junit.Assert.assertNotEquals;
 
+public class ForecastWeatherCoordinatesTest {
     private TyphoonFacade sut;
-    private WeatherStatus ws;
+    private List<WeatherStatus> ws;
 
     @Rule
     public final ExpectedException ex = ExpectedException.none();
@@ -21,7 +25,7 @@ public class CurrentWeatherCoordinatesTest {
     @Before
     public void setUp() throws Exception {
         sut = new TyphoonFacade();
-        ws = new WeatherStatus();
+        ws = new ArrayList<WeatherStatus>();
     }
 
     @After
@@ -31,21 +35,21 @@ public class CurrentWeatherCoordinatesTest {
     }
 
     @Test
-    public void currentWeatherCity_valid() throws InvalidCoordinatesException {
+    public void forecastWeatherCoord_valid() throws UnsupportedEncodingException, MalformedURLException, InvalidCoordinatesException {
         //Given
         Coordinates coord = new Coordinates(10, -10);
         //When
-        WeatherStatus status = sut.currentWeatherCoordinates(coord);
+        List<WeatherStatus> status = sut.forecastWeatherCoord(coord);
         //Then
         assertNotEquals(ws, status);
     }
 
     @Test(expected = NullPointerException.class)
-    public void currentWeatherCity_invalid() throws InvalidCoordinatesException {
+    public void forecastWeatherCoord_invalid() throws UnsupportedEncodingException, MalformedURLException, InvalidCoordinatesException {
         //Given
         Coordinates coord = new Coordinates(100000, -1000000);
         //When
-        WeatherStatus status = sut.currentWeatherCoordinates(coord);
+        List<WeatherStatus> status = sut.forecastWeatherCoord(coord);
         //Then Salta NoCityFoundException
     }
 }

@@ -5,31 +5,26 @@ import es.uji.ei1048.typhoon.core.Coordinates;
 import es.uji.ei1048.typhoon.core.InvalidCoordinatesException;
 import es.uji.ei1048.typhoon.core.NoCityFoundException;
 import es.uji.ei1048.typhoon.weather.WeatherStatus;
+import org.json.JSONArray;
 import org.json.JSONObject;
-
-
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Clase CurrentWeather
- * Clase que obtiene el tiempo actual dadas un nombre de ciudad o unas coordenadas.
- */
-
-public class CurrentWeather {
-
+public class ForecastWeather {
     private String apikey = "af04e9aa5c54a3a096f2178fc79f10c2";
     private String apiBase = "http://api.openweathermap.org/data/2.5/weather?q=";
-    private String apiCoord = "http://api.openweathermap.org/data/2.5/weather?";
+    private String apiCoord = "http://api.openweathermap.org/data/2.5/forecast?";
     private String apiForecast = "http://api.openweathermap.org/data/2.5/forecast?q=";
     private String units = "metric"; // metric
     private String lang = "en";
 
-    public CurrentWeather() {
+    public ForecastWeather() {
     }
 
     /**
@@ -41,9 +36,9 @@ public class CurrentWeather {
      * @throws NoCityFoundException
      *
      */
-    public WeatherStatus getCurrentWeatherAtCity(City city) throws UnsupportedEncodingException, NoCityFoundException, FileNotFoundException {
+    public List<WeatherStatus> getForecastWeatherAtCity(City city) throws UnsupportedEncodingException, NoCityFoundException {
         //Llamada al server
-        String apiUrl = apiBase + URLEncoder.encode(city.getName(), "utf-8") + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+lang;
+        String apiUrl = apiForecast + URLEncoder.encode(city.getName(), "utf-8") + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+lang;
         HttpURLConnection urlConnection = null;
         try {
             //Llamada a la funcion que gestiona el inputStream para sacar los datos
@@ -51,9 +46,8 @@ public class CurrentWeather {
             return fetchJsonData(connection(apiUrl));
         } catch (IOException e) {
             e.printStackTrace();
-            throw new NoCityFoundException();
         }
-
+        throw new NoCityFoundException();
     }
 
     /**
@@ -62,7 +56,7 @@ public class CurrentWeather {
      * @return WeatherStatus: Devuelve el estado actual del tiempo dadas unas coordenadas
      * @throws InvalidCoordinatesException
      */
-    public WeatherStatus getCurrentWeatherAtCoordinates(Coordinates coord) throws InvalidCoordinatesException {
+    public List<WeatherStatus> getForecastWeatherAtCoordinates(Coordinates coord) throws InvalidCoordinatesException {
         //Llamada al server
         String apiUrl = apiCoord + "lat=" + coord.getX() + "&lon=" + coord.getY() + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+ lang;
         HttpURLConnection urlConnection = null;
@@ -104,7 +98,7 @@ public class CurrentWeather {
      * @return WeatherStatus: Devuelve los datos del InputStream convertidos en un objeto WeatherStatus
      * @throws IOException
      */
-    private WeatherStatus fetchJsonData(InputStream inputStream) throws IOException {
+    private List<WeatherStatus> fetchJsonData(InputStream inputStream) throws IOException {
         BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
         StringBuilder responseStrBuilder = new StringBuilder();
 
@@ -113,15 +107,18 @@ public class CurrentWeather {
             responseStrBuilder.append(inputStr);
 
         JSONObject jsonObject = new JSONObject(responseStrBuilder.toString());
+        List<WeatherStatus> res = new ArrayList<WeatherStatus>();
+        JSONArray list = jsonObject.getJSONArray("list");
+        for(int i=0; i<=3; i++){
+            JSONObject main = list.getJSONObject(i).getJSONObject("main");
+            JSONObject weather = list.getJSONObject(i).getJSONArray("weather").getJSONObject(0);
+            JSONObject wind = list.getJSONObject(i).getJSONObject("wind");
+            WeatherStatus status = new WeatherStatus(weather.getString("main"), main.getDouble("temp"), main.getDouble("pressure"), main.getDouble("humidity"),
+                    main.getDouble("temp_min"), main.getDouble("temp_max"), wind.getDouble("speed"));
+            res.add(status);
 
-        JSONObject main = jsonObject.getJSONObject("main");
-        JSONObject weather = jsonObject.getJSONArray("weather").getJSONObject(0);
-        JSONObject wind = jsonObject.getJSONObject("wind");
+        }
 
-
-        WeatherStatus status = new WeatherStatus(weather.getString("main"), main.getDouble("temp"), main.getDouble("pressure"), main.getDouble("humidity"),
-                main.getDouble("temp_min"), main.getDouble("temp_max"), wind.getDouble("speed"));
-
-        return status;
+        return res;
     }
 }
