@@ -10,6 +10,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.io.IOException;
+import java.nio.charset.CoderResult;
+
 import static org.junit.Assert.*;
 
 public class CurrentWeatherCoordinatesTest {
@@ -21,34 +24,33 @@ public class CurrentWeatherCoordinatesTest {
     public final ExpectedException ex = ExpectedException.none();
 
     @Before
-    public void setUp(){
+    public void setUp() throws Exception {
         sut = new TyphoonFacade();
         ws = new WeatherStatus();
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() throws Exception {
         sut = null;
         ws = null;
     }
 
     @Test
-    public void currentWeatherCoordinates_valid() throws InvalidCoordinatesException {
+    public void currentWeatherCoordinates_valid() throws InvalidCoordinatesException, IOException {
         //Given
-        Coordinates coordinates = new Coordinates(39.98, -0.03);
+        Coordinates coord= new Coordinates(10, -10);
         //When
-        WeatherStatus status = sut.currentWeatherCoordinates(coordinates);
+        WeatherStatus status = sut.currentWeatherCoordinates(coord);
         //Then
         assertNotEquals(ws, status);
     }
 
-    @Test
-    public void currentWeatherCoordinates_invalid() throws InvalidCoordinatesException {
+    @Test(expected = InvalidCoordinatesException.class)
+    public void currentWeatherCoordinates_invalid() throws InvalidCoordinatesException, IOException {
         //Given
-        Coordinates coordinates = new Coordinates(-5339.98, -9841.03);
+        Coordinates coord= new Coordinates(10000, -10000);
         //When
-        WeatherStatus status = sut.currentWeatherCoordinates(coordinates);
+        WeatherStatus status = sut.currentWeatherCoordinates(coord);
         //Then
-        ex.expect(InvalidCoordinatesException.class);
     }
 }

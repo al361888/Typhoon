@@ -1,17 +1,36 @@
 package es.uji.ei1048.typhoon.core;
 
 import es.uji.ei1048.typhoon.weather.WeatherStatus;
+import es.uji.ei1048.typhoon.weather.current.CurrentWeather;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 
 public class TyphoonFacade {
 
-    private String openWeatherUrl = "http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID=af04e9aa5c54a3a096f2178fc79f10c2";
+    private ICurrentWeather currentWeather;
 
-    public WeatherStatus currentWeatherCity(City city) throws NoCityFoundException{
-        throw new UnsupportedOperationException("Unimplemented");
+    public TyphoonFacade(ICurrentWeather currentWeather) {
+        this.currentWeather = currentWeather;
     }
 
-    public WeatherStatus currentWeatherCoordinates(Coordinates coordinates) throws InvalidCoordinatesException{
-        throw new UnsupportedOperationException("Unimplemented");
+    public TyphoonFacade(){
+        this.currentWeather = new CurrentWeather();
+    }
+
+    public WeatherStatus currentWeatherCity(City city) throws NoCityFoundException, IOException {
+        //Llamada al metodo de la clase CurrentWeather
+        return currentWeather.getCurrentWeatherAtCity(city);
+
+        //throw new UnsupportedOperationException("Unimplemented");
+    }
+
+    public WeatherStatus currentWeatherCoordinates(Coordinates coordinates) throws InvalidCoordinatesException, IOException {
+        //Llamada al metodo de la clase CurrentWeather
+        return currentWeather.getCurrentWeatherAtCoordinates(coordinates);
+
+        // throw new UnsupportedOperationException("Unimplemented");
     }
 
 }

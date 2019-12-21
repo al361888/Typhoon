@@ -1,85 +1,126 @@
 package es.uji.ei1048.typhoon.weather;
 
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class WeatherStatus {
-    private float temp;
-    private float pressure;
-    private int humidity;
-    private float tempMin;
-    private float tempMax;
+    private String description;
+    private double temp;
+    private double pressure;
+    private double humidity;
+    private double tempMin;
+    private double tempMax;
+    private double windSpeed;
+    private LocalTime time;
 
-
-    public WeatherStatus(){
-        this.temp = 0;
-        this.pressure = 0;
-        this.humidity = 0;
-        this.tempMin = 0;
-        this.tempMax = 0;
+    public WeatherStatus() {
     }
 
-    public WeatherStatus(float temp, float pressure, int humidity, float tempMin, float tempMax) {
+    public WeatherStatus(String description, double temp, double pressure, double humidity, double tempMin, double tempMax, double windSpeed) {
+        this.time = LocalTime.now();
+        this.description = description;
         this.temp = temp;
         this.pressure = pressure;
         this.humidity = humidity;
         this.tempMin = tempMin;
         this.tempMax = tempMax;
+        this.windSpeed = windSpeed;
     }
 
-    public float getTemp() {
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getTemp() {
         return temp;
     }
 
-    public void setTemp(float temp) {
+    public void setTemp(double temp) {
         this.temp = temp;
     }
 
-    public float getPressure() {
+    public double getPressure() {
         return pressure;
     }
 
-    public void setPressure(float pressure) {
+    public void setPressure(double pressure) {
         this.pressure = pressure;
     }
 
-    public int getHumidity() {
+    public double getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(int humidity) {
+    public void setHumidity(double humidity) {
         this.humidity = humidity;
     }
 
-    public float getTempMin() {
+    public double getTempMin() {
         return tempMin;
     }
 
-    public void setTempMin(float tempMin) {
+    public void setTempMin(double tempMin) {
         this.tempMin = tempMin;
     }
 
-    public float getTempMax() {
+    public double getTempMax() {
         return tempMax;
     }
 
-    public void setTempMax(float tempMax) {
+    public void setTempMax(double tempMax) {
         this.tempMax = tempMax;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    public double getWindSpeed() {
+        return windSpeed;
+    }
+
+    public void setWindSpeed(double windSpeed) {
+        this.windSpeed = windSpeed;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof WeatherStatus)) return false;
-        WeatherStatus status = (WeatherStatus) o;
-        return Float.compare(status.getTemp(), getTemp()) == 0 &&
-                Float.compare(status.getPressure(), getPressure()) == 0 &&
-                getHumidity() == status.getHumidity() &&
-                Float.compare(status.getTempMin(), getTempMin()) == 0 &&
-                Float.compare(status.getTempMax(), getTempMax()) == 0;
+        if (o == null || getClass() != o.getClass()) return false;
+        WeatherStatus that = (WeatherStatus) o;
+        return Double.compare(that.temp, temp) == 0 &&
+                Double.compare(that.pressure, pressure) == 0 &&
+                Double.compare(that.humidity, humidity) == 0 &&
+                Double.compare(that.tempMin, tempMin) == 0 &&
+                Double.compare(that.tempMax, tempMax) == 0 &&
+                Double.compare(that.windSpeed, windSpeed) == 0 &&
+                Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTemp(), getPressure(), getHumidity(), getTempMin(), getTempMax());
+        return Objects.hash(description, temp, pressure, humidity, tempMin, tempMax);
+    }
+
+    @Override
+    public String toString() {
+        return "Description: " +description+ '\n'+
+                "Temperature: " + temp + '\n' +
+                "Pressure: " + pressure + '\n'+
+                "Humidity: " + humidity + '\n'+
+                "Temperature Min: " + tempMin + '\n' +
+                "Temperature Max: " + tempMax + '\n' +
+                "Wind speed: " + windSpeed + '\n' +
+                "Last call: " + time.toString();
+
     }
 }

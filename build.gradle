@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
 group 'es.uji.ei1048'
@@ -14,4 +16,12 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile "org.mockito:mockito-core:2.+"
+    compile 'org.json:json:20171018'
 }
+
+javafx {
+    modules = ['javafx.controls', 'javafx.fxml']
+    version = '11.0.2'
+}
+
+mainClassName = 'es.uji.ei1048.typhoon.core.Main'

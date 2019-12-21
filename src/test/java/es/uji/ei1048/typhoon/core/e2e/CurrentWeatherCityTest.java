@@ -10,15 +10,17 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+
 import static org.junit.Assert.*;
 
 public class CurrentWeatherCityTest {
 
     private TyphoonFacade sut;
     private WeatherStatus ws;
-
-    @Rule
-    public final ExpectedException ex = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
@@ -33,7 +35,7 @@ public class CurrentWeatherCityTest {
     }
 
     @Test
-    public void currentWeatherCity_valid() throws NoCityFoundException {
+    public void currentWeatherCity_valid() throws NoCityFoundException, IOException {
         //Given
         City city = new City("Valencia");
         //When
@@ -42,14 +44,13 @@ public class CurrentWeatherCityTest {
         assertNotEquals(ws, status);
     }
 
-    @Test
-    public void currentWeatherCity_invalid() throws NoCityFoundException {
+    @Test(expected = NoCityFoundException.class)
+    public void currentWeatherCity_invalid() throws NoCityFoundException, IOException {
         //Given
         City city = new City("Minas Tirith");
         //When
         WeatherStatus status = sut.currentWeatherCity(city);
-        //Then
-        ex.expect(NoCityFoundException.class);
+        //Then Salta NoCityFoundException
     }
 
 }
