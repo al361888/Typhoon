@@ -33,7 +33,7 @@ public class CurrentWeatherCoordinatesTest {
     }
 
     @Test
-    public void currentWeatherCity_valid() throws InvalidCoordinatesException, IOException {
+    public void currentWeatherCoord_valid() throws InvalidCoordinatesException, IOException {
         //Given
         Coordinates coord = new Coordinates(10, -10);
         //When
@@ -43,11 +43,11 @@ public class CurrentWeatherCoordinatesTest {
     }
 
     @Test(expected = InvalidCoordinatesException.class)
-    public void currentWeatherCity_invalid() throws InvalidCoordinatesException, IOException {
+    public void currentWeatherCoord_invalid() throws InvalidCoordinatesException, IOException {
         //Given
         Coordinates coord = new Coordinates(100000, -1000000);
         //When
         WeatherStatus status = sut.currentWeatherCoordinates(coord);
-        //Then Salta NoCityFoundException
+        //Then Salta InvalidCoordinatesException
     }
 }

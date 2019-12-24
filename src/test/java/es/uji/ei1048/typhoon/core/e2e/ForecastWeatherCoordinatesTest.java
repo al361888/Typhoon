@@ -51,6 +51,6 @@ public class ForecastWeatherCoordinatesTest {
         Coordinates coord = new Coordinates(100000, -1000000);
         //When
         List<WeatherStatus> status = sut.forecastWeatherCoord(coord);
-        //Then Salta NoCityFoundException
+        //Then Salta InvalidCoordinatesException
     }
 }

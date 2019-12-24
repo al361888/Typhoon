@@ -12,17 +12,13 @@ import java.util.List;
 
 public class TyphoonFacade {
 
-    private ICurrentWeather currentWeather;
-    private ForecastWeather forecastWeather;
+   private CurrentWeather currentWeather;
+   private  ForecastWeather forecastWeather;
 
-    public TyphoonFacade(ICurrentWeather c) {
-        this.currentWeather = c;
-    }
-
-    public  TyphoonFacade(){
-        currentWeather = new CurrentWeather();
-        forecastWeather = new ForecastWeather();
-    }
+   public  TyphoonFacade(){
+       currentWeather = new CurrentWeather();
+       forecastWeather = new ForecastWeather();
+   }
 
     public WeatherStatus currentWeatherCity(City city) throws NoCityFoundException, IOException {
         //Llamada al metodo de la clase CurrentWeather

@@ -14,11 +14,17 @@ public class WeatherStatus {
     private double windSpeed;
     private LocalTime time;
 
-    public WeatherStatus() {
+    public WeatherStatus(){
+        this.description = null;
+        this.temp = -1000;
+        this.pressure = -1000;
+        this.humidity = -1000;
+        this.tempMin = -1000;
+        this.tempMax = 1000;
+        this.windSpeed = -1000;
     }
 
-    public WeatherStatus(String description, double temp, double pressure, double humidity, double tempMin, double tempMax, double windSpeed) {
-        this.time = LocalTime.now();
+    public WeatherStatus(String description, double temp, double pressure, double humidity, double tempMin, double tempMax, double windSpeed, LocalTime time) {
         this.description = description;
         this.temp = temp;
         this.pressure = pressure;
@@ -26,6 +32,18 @@ public class WeatherStatus {
         this.tempMin = tempMin;
         this.tempMax = tempMax;
         this.windSpeed = windSpeed;
+        this.time = time;
+    }
+
+    public WeatherStatus(String description, double temp, double pressure, double humidity, double tempMin, double tempMax, double windSpeed) {
+        this.description = description;
+        this.temp = temp;
+        this.pressure = pressure;
+        this.humidity = humidity;
+        this.tempMin = tempMin;
+        this.tempMax = tempMax;
+        this.windSpeed = windSpeed;
+        this.time = LocalTime.now();
     }
 
     public String getDescription() {

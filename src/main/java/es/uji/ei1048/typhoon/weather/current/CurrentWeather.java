@@ -17,12 +17,11 @@ import java.net.URLEncoder;
  * Clase que obtiene el tiempo actual dadas un nombre de ciudad o unas coordenadas.
  */
 
-public class CurrentWeather implements ICurrentWeather {
+public class CurrentWeather implements IServerConexion {
 
     private String apikey = "af04e9aa5c54a3a096f2178fc79f10c2";
     private String apiBase = "http://api.openweathermap.org/data/2.5/weather?q=";
     private String apiCoord = "http://api.openweathermap.org/data/2.5/weather?";
-    private String apiForecast = "http://api.openweathermap.org/data/2.5/forecast?q=";
     private String units = "metric"; // metric
     private String lang = "en";
 
@@ -38,7 +37,6 @@ public class CurrentWeather implements ICurrentWeather {
      * @throws NoCityFoundException
      *
      */
-    @Override
     public WeatherStatus getCurrentWeatherAtCity(City city) throws IOException, NoCityFoundException {
         //Llamada al server
         String apiUrl = apiBase + URLEncoder.encode(city.getName(), "utf-8") + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+lang;
@@ -54,7 +52,6 @@ public class CurrentWeather implements ICurrentWeather {
      * @return WeatherStatus: Devuelve el estado actual del tiempo dadas unas coordenadas
      * @throws InvalidCoordinatesException
      */
-    @Override
     public WeatherStatus getCurrentWeatherAtCoordinates(Coordinates coord) throws InvalidCoordinatesException, IOException {
         //Llamada al server
         String apiUrl = apiCoord + "lat=" + coord.getX() + "&lon=" + coord.getY() + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+ lang;
