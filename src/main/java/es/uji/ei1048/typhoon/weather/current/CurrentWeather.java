@@ -37,6 +37,7 @@ public class CurrentWeather implements IServerConexion {
      * @throws NoCityFoundException
      *
      */
+    @Override
     public WeatherStatus getCurrentWeatherAtCity(City city) throws IOException, NoCityFoundException {
         //Llamada al server
         String apiUrl = apiBase + URLEncoder.encode(city.getName(), "utf-8") + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+lang;

@@ -31,12 +31,8 @@ public class TimeConexionTest {
     }
 
     @Test
-    public void CityUnknownCallServer(){
-        LocalTime date = LocalTime.now();
-        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-        status.setTime(date);
-        when(dataBase.getCityStatus("x")).thenReturn(new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalTime.now().plusHours(2)));
-        when(server.getStatus("x")).thenReturn(status);
+    public void CityUnknownCallServer() throws IOException, NoCityFoundException {
+
 
     }
 
@@ -46,8 +42,12 @@ public class TimeConexionTest {
     }
 
     @Test
-    public void CityKnownCallServer(){
-
+    public void CityKnownCallServer() throws IOException, NoCityFoundException {
+        LocalTime date = LocalTime.now();
+        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        status.setTime(date);
+        when(dataBase.getCityStatus("x")).thenReturn(new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalTime.now().plusHours(2)));
+        when(server.getCurrentWeatherAtCity(new City("x"))).thenReturn(status);
     }
 
     @Test
