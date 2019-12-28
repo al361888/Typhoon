@@ -14,34 +14,45 @@ public class TyphoonFacade {
 
    private CurrentWeather currentWeather;
    private  ForecastWeather forecastWeather;
+   private FavouritePlaces favouritePlaces;
 
    public  TyphoonFacade(){
        currentWeather = new CurrentWeather();
        forecastWeather = new ForecastWeather();
+       favouritePlaces = new FavouritePlaces();
    }
 
     public WeatherStatus currentWeatherCity(City city) throws NoCityFoundException, IOException {
         //Llamada al metodo de la clase CurrentWeather
         return currentWeather.getCurrentWeatherAtCity(city);
-
-        //throw new UnsupportedOperationException("Unimplemented");
     }
 
     public WeatherStatus currentWeatherCoordinates(Coordinates coordinates) throws InvalidCoordinatesException, IOException {
         //Llamada al metodo de la clase CurrentWeather
         return currentWeather.getCurrentWeatherAtCoordinates(coordinates);
-
-
-        // throw new UnsupportedOperationException("Unimplemented");
     }
 
     public List<WeatherStatus> forecastWeatherCity(City city) throws IOException, NoCityFoundException {
         return forecastWeather.getForecastWeatherAtCity(city);
-        //throw new UnsupportedOperationException("Unimplemented");
+
     }
 
     public List<WeatherStatus> forecastWeatherCoord(Coordinates coordinates) throws IOException, InvalidCoordinatesException{
         return forecastWeather.getForecastWeatherAtCoordinates(coordinates);
-        //throw new UnsupportedOperationException("Unimplemented");
+
+    }
+
+    public boolean addFavouriteCity(City city) throws NoCityFoundException, IOException{
+        //Llamada al metodo de la clase FavouritePlaces
+        return favouritePlaces.addFavouriteCity(city);
+    }
+
+    public boolean addFavouriteCoordinates(Coordinates coordinates) throws InvalidCoordinatesException, IOException{
+        //Llamada al metodo de la clase FavouritePlaces
+        return favouritePlaces.addFavouriteCoordinates(coordinates);
+    }
+
+    public List<Place> getFavouritePlaces(){
+       return favouritePlaces.getFavourites();
     }
 }

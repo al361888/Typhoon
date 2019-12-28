@@ -51,7 +51,7 @@ public class TimeConexionTest {
     }
 
     @Test
-    public void CoordKownCallServer(){
+    public void CoordKnownCallServer(){
 
     }
 

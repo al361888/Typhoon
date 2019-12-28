@@ -6,16 +6,25 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.util.List;
 
 public class Demo {
 
     public static void main(String[] args) throws IOException, NoCityFoundException, InvalidCoordinatesException {
         TyphoonFacade typhoonFacade = new TyphoonFacade();
-        WeatherStatus ws = typhoonFacade.currentWeatherCity(new City("Valencia"));
+        City city = new City("Valencia");
+        City city2 = new City("London");
+        WeatherStatus ws = typhoonFacade.currentWeatherCity(city);
         System.out.println(ws.toString());
-        System.out.println("######Forecast#########");
-        for(int i = 0; i<=3; i++)
-            System.out.println("Day "+i+ ": " + typhoonFacade.forecastWeatherCity(new City("Valencia")).get(i).toString());
+        typhoonFacade.addFavouriteCity(city);
+        typhoonFacade.addFavouriteCity(city2);
+        List<Place> favs = typhoonFacade.getFavouritePlaces();
+        for (Place fav : favs) {
+            System.out.println(fav.getIdentifier());
+        }
+//        System.out.println("######Forecast#########");
+//        for(int i = 0; i<=3; i++)
+//            System.out.println("Day "+i+ ": " + typhoonFacade.forecastWeatherCity(new City("Valencia")).get(i).toString());
 
 
 

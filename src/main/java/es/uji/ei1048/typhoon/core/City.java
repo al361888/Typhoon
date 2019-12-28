@@ -24,4 +24,9 @@ public class City implements Place {
     public void setCoordinates(Coordinates coordinates) {
         this.coordinates = coordinates;
     }
+
+    @Override
+    public String getIdentifier() {
+        return name;
+    }
 }

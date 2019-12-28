@@ -25,4 +25,9 @@ public class Coordinates implements Place {
     public void setY(double y) {
         this.y = y;
     }
+
+    @Override
+    public String getIdentifier() {
+        return x + "," + y;
+    }
 }
