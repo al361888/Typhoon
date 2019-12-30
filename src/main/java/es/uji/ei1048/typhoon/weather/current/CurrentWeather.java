@@ -17,15 +17,14 @@ import java.net.URLEncoder;
  * Clase que obtiene el tiempo actual dadas un nombre de ciudad o unas coordenadas.
  */
 
-public class CurrentWeather extends databaseOp implements IServerConexion {
+public class CurrentWeather implements IServerConexion {
 
     private String apikey = "af04e9aa5c54a3a096f2178fc79f10c2";
     private String apiBase = "http://api.openweathermap.org/data/2.5/weather?q=";
     private String apiCoord = "http://api.openweathermap.org/data/2.5/weather?";
     private String units = "metric"; // metric
     private String lang = "en";
-    private City city = null;
-    private Coordinates coordinates = null;
+
 
     public CurrentWeather() {
     }
@@ -45,7 +44,6 @@ public class CurrentWeather extends databaseOp implements IServerConexion {
         String apiUrl = apiBase + URLEncoder.encode(city.getName(), "utf-8") + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+lang;
         InputStream response = connection(apiUrl);
         if(response!=null) {
-            this.city = city;
             return fetchJsonData(response);
         } else {
             throw new NoCityFoundException();
@@ -58,12 +56,12 @@ public class CurrentWeather extends databaseOp implements IServerConexion {
      * @return WeatherStatus: Devuelve el estado actual del tiempo dadas unas coordenadas
      * @throws InvalidCoordinatesException
      */
+    @Override
     public WeatherStatus getCurrentWeatherAtCoordinates(Coordinates coord) throws InvalidCoordinatesException, IOException {
         //Llamada al server
-        String apiUrl = apiCoord + "lat=" + coord.getX() + "&lon=" + coord.getY() + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+ lang;
+        String apiUrl = apiCoord + "lat=" + coord.getLatitude() + "&lon=" + coord.getLongitude() + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+ lang;
         InputStream response = connection(apiUrl);
         if(response!=null) {
-            this.coordinates = coord;
             return fetchJsonData(response);
         }else{
             throw new InvalidCoordinatesException();
@@ -115,13 +113,7 @@ public class CurrentWeather extends databaseOp implements IServerConexion {
         JSONObject wind = jsonObject.getJSONObject("wind");
 
 
-        WeatherStatus status = new WeatherStatus(weather.getString("main"), main.getDouble("temp"), main.getDouble("pressure"), main.getDouble("humidity"),
+        return new WeatherStatus(weather.getString("main"), main.getDouble("temp"), main.getDouble("pressure"), main.getDouble("humidity"),
                 main.getDouble("temp_min"), main.getDouble("temp_max"), wind.getDouble("speed"));
-        if(this.city == null){
-            insertCoord(coordinates, status);
-        }else{
-            insertCity(city, status);
-        }
-        return status;
     }
 }

@@ -51,7 +51,7 @@ public class ForecastWeather {
      */
     public List<WeatherStatus> getForecastWeatherAtCoordinates(Coordinates coord) throws InvalidCoordinatesException, IOException {
         //Llamada al server
-        String apiUrl = apiCoord + "lat=" + coord.getX() + "&lon=" + coord.getY() + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+ lang;
+        String apiUrl = apiCoord + "lat=" + coord.getLatitude() + "&lon=" + coord.getLongitude() + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+ lang;
         InputStream response = connection(apiUrl);
         if(response!=null) return fetchJsonData(response);
         else throw new InvalidCoordinatesException();

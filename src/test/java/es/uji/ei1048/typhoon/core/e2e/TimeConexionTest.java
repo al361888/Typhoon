@@ -5,28 +5,32 @@ import es.uji.ei1048.typhoon.weather.WeatherStatus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.time.LocalTime;
-import java.util.Date;
 
 import static org.mockito.Mockito.*;
 
 public class TimeConexionTest {
 
     private IServerConexion server;
-    private IDataBaseConexion dataBase;
+    private IDataBaseOp dataBase;
+    private IRestrictionFunction re;
 
 
     @Before
     public void setUp() throws Exception {
         server = mock(IServerConexion.class);
-        dataBase = mock(IDataBaseConexion.class);
+        dataBase = mock(IDataBaseOp.class);
+        re = new RestrictionFunction(server, dataBase);
     }
 
     @After
     public void tearDown() throws Exception {
         server = null;
+        dataBase = null;
+        re = null;
 
     }
 
@@ -43,11 +47,18 @@ public class TimeConexionTest {
 
     @Test
     public void CityKnownCallServer() throws IOException, NoCityFoundException {
-        LocalTime date = LocalTime.now();
-        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-        status.setTime(date);
-        when(dataBase.getCityStatus("x")).thenReturn(new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalTime.now().plusHours(2)));
-        when(server.getCurrentWeatherAtCity(new City("x"))).thenReturn(status);
+        City city = new City("x");
+        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalTime.now());
+        when(dataBase.getStatusCity(city)).thenReturn(new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalTime.now().minusHours(2)));
+        when(server.getCurrentWeatherAtCity(city)).thenReturn(status);
+
+        WeatherStatus result = re.getStatusCity(city);
+        verify(server, times(1)).getCurrentWeatherAtCity(city);
+        verify(dataBase, times(1)).insertCity(city, status);
+        verify(dataBase, times(1)).getStatusCity(city);
+        assertEquals(result, status);
+
+
     }
 
     @Test

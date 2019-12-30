@@ -1,5 +1,7 @@
 package es.uji.ei1048.typhoon.weather;
 
+import javafx.util.converter.LocalTimeStringConverter;
+
 import java.sql.Time;
 import java.time.LocalTime;
 import java.util.Objects;
@@ -45,6 +47,7 @@ public class WeatherStatus {
         this.windSpeed = windSpeed;
         this.time = LocalTime.now();
     }
+
 
     public String getDescription() {
         return description;
