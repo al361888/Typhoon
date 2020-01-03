@@ -46,7 +46,7 @@ public class Main extends Application {
 
 
     /**
-     * Shows the person overview inside the root layout.
+     * Shows the weather overview inside the root layout.
      */
     public void showCurrentWeather() {
         try {

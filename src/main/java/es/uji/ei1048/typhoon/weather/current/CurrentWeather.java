@@ -20,14 +20,8 @@ import java.net.URLEncoder;
 public class CurrentWeather implements IServerConexion {
 
     private String apikey = "af04e9aa5c54a3a096f2178fc79f10c2";
-    private String apiBase = "http://api.openweathermap.org/data/2.5/weather?q=";
-    private String apiCoord = "http://api.openweathermap.org/data/2.5/weather?";
     private String units = "metric"; // metric
     private String lang = "en";
-
-
-    public CurrentWeather() {
-    }
 
     /**
      *
@@ -41,6 +35,7 @@ public class CurrentWeather implements IServerConexion {
     @Override
     public WeatherStatus getCurrentWeatherAtCity(City city) throws IOException, NoCityFoundException {
         //Llamada al server
+        String apiBase = "http://api.openweathermap.org/data/2.5/weather?q=";
         String apiUrl = apiBase + URLEncoder.encode(city.getName(), "utf-8") + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+lang;
         InputStream response = connection(apiUrl);
         if(response!=null) {
@@ -59,6 +54,7 @@ public class CurrentWeather implements IServerConexion {
     @Override
     public WeatherStatus getCurrentWeatherAtCoordinates(Coordinates coord) throws InvalidCoordinatesException, IOException {
         //Llamada al server
+        String apiCoord = "http://api.openweathermap.org/data/2.5/weather?";
         String apiUrl = apiCoord + "lat=" + coord.getLatitude() + "&lon=" + coord.getLongitude() + "&appid=" + apikey + "&mode=json&units=" + units + "&lang="+ lang;
         InputStream response = connection(apiUrl);
         if(response!=null) {

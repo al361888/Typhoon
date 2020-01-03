@@ -2,27 +2,20 @@ package es.uji.ei1048.typhoon.core;
 
 import es.uji.ei1048.typhoon.weather.WeatherStatus;
 import es.uji.ei1048.typhoon.weather.current.CurrentWeather;
-import es.uji.ei1048.typhoon.weather.current.DatabaseOp;
 import es.uji.ei1048.typhoon.weather.current.ForecastWeather;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 import java.util.List;
 
 public class TyphoonFacade {
 
-    IRestrictionFunction restrictionFunction;
-    IServerConexion serverConexion;
-    IDataBaseOp dataBaseOp;
-    ForecastWeather forecastWeather = new ForecastWeather();
+    private IRestrictionFunction restrictionFunction;
+    private ForecastWeather forecastWeather = new ForecastWeather();
 
    public  TyphoonFacade(){
-       this.serverConexion = new CurrentWeather();
-       this.dataBaseOp = new DatabaseOp();
-      this.restrictionFunction = new RestrictionFunction(serverConexion, dataBaseOp);
+       IServerConexion serverConexion = new CurrentWeather();
+       IDataBaseOp dataBaseOp = new DatabaseOp();
+       this.restrictionFunction = new RestrictionFunction(serverConexion, dataBaseOp);
    }
 
     public WeatherStatus currentWeatherCity(City city) throws NoCityFoundException, IOException {

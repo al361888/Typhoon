@@ -62,9 +62,6 @@ public class ViewController {
     private Main main;
     private TyphoonFacade typhoonFacade = new TyphoonFacade();
 
-    public ViewController() {
-    }
-
     @FXML
     private void sendCurrentWeatherStatusCity(ActionEvent event) throws IOException {
         WeatherStatus ws = new WeatherStatus();

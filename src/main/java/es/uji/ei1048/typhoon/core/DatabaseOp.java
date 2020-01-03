@@ -1,24 +1,25 @@
-package es.uji.ei1048.typhoon.weather.current;
+package es.uji.ei1048.typhoon.core;
 
 import es.uji.ei1048.typhoon.core.City;
 import es.uji.ei1048.typhoon.core.Coordinates;
 import es.uji.ei1048.typhoon.core.IDataBaseOp;
 import es.uji.ei1048.typhoon.weather.WeatherStatus;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.time.LocalTime;
 
 public class DatabaseOp implements IDataBaseOp {
 
-
-    private Connection connectDB() throws ClassNotFoundException {
+    private Connection connectDB(){
         // SQLite connection string
-        Class.forName("org.sqlite.JDBC");
-        String url = "jdbc:sqlite:C:\\Users\\mario\\IdeaProjects\\WeatherApp\\typhoon.db";
+        String url = "jdbc:sqlite::resource:typhoon.db";
         Connection conn = null;
         try {
+            Class.forName("org.sqlite.JDBC");
             conn = DriverManager.getConnection(url);
-        } catch (SQLException e) {
+            System.out.println("Opened database successfully!");
+        } catch (SQLException | ClassNotFoundException e) {
             System.out.println(e.getMessage());
         }
         return conn;
@@ -29,7 +30,7 @@ public class DatabaseOp implements IDataBaseOp {
         String sql = "INSERT INTO weatherStatusCity(name, lastcall, temp, description, pressure, humidity, tempmin, tempmax, wind) VALUES(?,?,?,?,?,?,?,?,?)";
         try (Connection conn = this.connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setString(1, city.getName());
+            pstmt.setString(1, city.getName().toLowerCase());
             pstmt.setString(2, w.getTime().toString());
             pstmt.setDouble(3, w.getTemp());
             pstmt.setString(4, w.getDescription());
@@ -38,8 +39,10 @@ public class DatabaseOp implements IDataBaseOp {
             pstmt.setDouble(7, w.getTempMin());
             pstmt.setDouble(8, w.getTempMax());
             pstmt.setDouble(9, w.getWindSpeed());
+            System.out.println("INSERT");
             pstmt.executeUpdate();
-        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("FIN");
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -60,7 +63,7 @@ public class DatabaseOp implements IDataBaseOp {
             pstmt.setDouble(9, w.getTempMax());
             pstmt.setDouble(10, w.getWindSpeed());
             pstmt.executeUpdate();
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -70,16 +73,18 @@ public class DatabaseOp implements IDataBaseOp {
         String sql = "SELECT lastcall, temp, description, pressure, humidity, tempmin, tempmax, wind FROM weatherStatusCity WHERE name = ?";
         try (Connection conn = this.connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setString(1, city.getName());
-
+            pstmt.setString(1, city.getName().toLowerCase());
+            System.out.println("SELECT");
             ResultSet rs = pstmt.executeQuery();
-
+            System.out.println(new WeatherStatus(rs.getString("description"), rs.getDouble("temp"), rs.getDouble("pressure"),
+                    rs.getDouble("humidity"), rs.getDouble("tempmin"), rs.getDouble("tempmax"), rs.getDouble("wind"), LocalTime.parse(rs.getString("lastcall"))).toString());
             return new WeatherStatus(rs.getString("description"), rs.getDouble("temp"), rs.getDouble("pressure"),
                     rs.getDouble("humidity"), rs.getDouble("tempmin"), rs.getDouble("tempmax"), rs.getDouble("wind"), LocalTime.parse(rs.getString("lastcall")));
 
 
-        } catch (SQLException | ClassNotFoundException e) {
-            System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            //System.out.println(e.getMessage());
+            System.out.println("Fallo");
             return null;
         }
 
@@ -87,7 +92,7 @@ public class DatabaseOp implements IDataBaseOp {
 
     @Override
     public WeatherStatus getStatusCoord(Coordinates coordinates) {
-        String sql = "SELECT lastcall, temp, description, pressure, humidity, tempmin, tempmax, wind FROM weatherStatusCity WHERE latitude = ? and longitude = ?";
+        String sql = "SELECT lastcall, temp, description, pressure, humidity, tempmin, tempmax, wind FROM weatherStatusCoord WHERE latitude = ? and longitude = ?;";
         try (Connection conn = this.connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setDouble(1, coordinates.getLatitude());
@@ -99,10 +104,15 @@ public class DatabaseOp implements IDataBaseOp {
                     rs.getDouble("humidity"), rs.getDouble("tempmin"), rs.getDouble("tempmax"), rs.getDouble("wind"), LocalTime.parse(rs.getString("lastcall")));
 
 
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
         }
+
+    }
+
+    @Override
+    public void deleteCity(City city){
 
     }
 }

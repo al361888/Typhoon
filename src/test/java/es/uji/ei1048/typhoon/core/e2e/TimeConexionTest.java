@@ -16,7 +16,7 @@ public class TimeConexionTest {
 
     private IServerConexion server;
     private IDataBaseOp dataBase;
-    private IRestrictionFunction re;
+    private RestrictionFunction re;
 
 
     @Before
@@ -47,7 +47,7 @@ public class TimeConexionTest {
 
     @Test
     public void CityKnownCallServer() throws IOException, NoCityFoundException {
-        City city = new City("x");
+        City city = new City("Valencia");
         WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalTime.now());
         when(dataBase.getStatusCity(city)).thenReturn(new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalTime.now().minusHours(2)));
         when(server.getCurrentWeatherAtCity(city)).thenReturn(status);
