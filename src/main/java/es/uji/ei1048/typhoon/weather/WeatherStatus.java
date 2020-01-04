@@ -141,7 +141,7 @@ public class WeatherStatus {
                 "Temperature Min: " + tempMin + '\n' +
                 "Temperature Max: " + tempMax + '\n' +
                 "Wind speed: " + windSpeed + '\n' +
-                "Last call: " + time.toString();
+                "Last call: " + time.getHour() + ":" + time.getMinute();
 
     }
 }

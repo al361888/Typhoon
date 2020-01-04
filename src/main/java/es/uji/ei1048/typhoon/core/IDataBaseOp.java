@@ -10,6 +10,7 @@ public interface IDataBaseOp {
     void insertCoord(Coordinates coordinates, WeatherStatus w);
     WeatherStatus getStatusCity(City city);
     WeatherStatus getStatusCoord(Coordinates coordinates);
-    void deleteCity(City city);
+    void deleteStatus(WeatherStatus status);
+
 
 }

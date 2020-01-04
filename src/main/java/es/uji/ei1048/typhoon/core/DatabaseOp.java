@@ -39,9 +39,8 @@ public class DatabaseOp implements IDataBaseOp {
             pstmt.setDouble(7, w.getTempMin());
             pstmt.setDouble(8, w.getTempMax());
             pstmt.setDouble(9, w.getWindSpeed());
-            System.out.println("INSERT");
             pstmt.executeUpdate();
-            System.out.println("FIN");
+            System.out.println("inserting city");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -63,6 +62,7 @@ public class DatabaseOp implements IDataBaseOp {
             pstmt.setDouble(9, w.getTempMax());
             pstmt.setDouble(10, w.getWindSpeed());
             pstmt.executeUpdate();
+            System.out.println("inserting coord");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -74,17 +74,14 @@ public class DatabaseOp implements IDataBaseOp {
         try (Connection conn = this.connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setString(1, city.getName().toLowerCase());
-            System.out.println("SELECT");
             ResultSet rs = pstmt.executeQuery();
-            System.out.println(new WeatherStatus(rs.getString("description"), rs.getDouble("temp"), rs.getDouble("pressure"),
-                    rs.getDouble("humidity"), rs.getDouble("tempmin"), rs.getDouble("tempmax"), rs.getDouble("wind"), LocalTime.parse(rs.getString("lastcall"))).toString());
+            System.out.println("select city");
             return new WeatherStatus(rs.getString("description"), rs.getDouble("temp"), rs.getDouble("pressure"),
                     rs.getDouble("humidity"), rs.getDouble("tempmin"), rs.getDouble("tempmax"), rs.getDouble("wind"), LocalTime.parse(rs.getString("lastcall")));
 
 
         } catch (SQLException e) {
-            //System.out.println(e.getMessage());
-            System.out.println("Fallo");
+            System.out.println(e.getMessage());
             return null;
         }
 
@@ -92,7 +89,7 @@ public class DatabaseOp implements IDataBaseOp {
 
     @Override
     public WeatherStatus getStatusCoord(Coordinates coordinates) {
-        String sql = "SELECT lastcall, temp, description, pressure, humidity, tempmin, tempmax, wind FROM weatherStatusCoord WHERE latitude = ? and longitude = ?;";
+        String sql = "SELECT lastcall, temp, description, pressure, humidity, tempmin, tempmax, wind FROM weatherStatusCoord WHERE latitude = ? and longitude = ?";
         try (Connection conn = this.connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setDouble(1, coordinates.getLatitude());
@@ -112,7 +109,18 @@ public class DatabaseOp implements IDataBaseOp {
     }
 
     @Override
-    public void deleteCity(City city){
+    public void deleteStatus(WeatherStatus status){
+        String sql = "DELETE FROM weatherStatusCity WHERE lastcall <= ?";
+        try (Connection conn = this.connectDB();
+             PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setString(1, status.getTime().toString());
+            pstmt.executeUpdate();
+            System.out.println("deleting");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
 
     }
+
+
 }

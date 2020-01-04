@@ -62,8 +62,17 @@ public class TimeConexionTest {
     }
 
     @Test
-    public void CoordKownCallServer(){
+    public void CoordKownCallServer() throws IOException, InvalidCoordinatesException {
+        Coordinates coord = new Coordinates(0, 0);
+        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalTime.now());
+        when(dataBase.getStatusCoord(coord)).thenReturn(new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalTime.now().minusHours(2)));
+        when(server.getCurrentWeatherAtCoordinates(coord)).thenReturn(status);
 
+        WeatherStatus result = re.getStatusCoord(coord);
+        verify(server, times(1)).getCurrentWeatherAtCoordinates(coord);
+        verify(dataBase, times(1)).insertCoord(coord, status);
+        verify(dataBase, times(1)).getStatusCoord(coord);
+        assertEquals(result, status);
     }
 
 
