@@ -2,8 +2,10 @@ package es.uji.ei1048.typhoon.weather;
 
 import javafx.util.converter.LocalTimeStringConverter;
 
-import java.sql.Time;
-import java.time.LocalTime;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class WeatherStatus {
@@ -14,7 +16,8 @@ public class WeatherStatus {
     private double tempMin;
     private double tempMax;
     private double windSpeed;
-    private LocalTime time;
+    private LocalDateTime time;
+
 
     public WeatherStatus(){
         this.description = null;
@@ -26,7 +29,7 @@ public class WeatherStatus {
         this.windSpeed = -1000;
     }
 
-    public WeatherStatus(String description, double temp, double pressure, double humidity, double tempMin, double tempMax, double windSpeed, LocalTime time) {
+    public WeatherStatus(String description, double temp, double pressure, double humidity, double tempMin, double tempMax, double windSpeed, LocalDateTime time) {
         this.description = description;
         this.temp = temp;
         this.pressure = pressure;
@@ -45,7 +48,7 @@ public class WeatherStatus {
         this.tempMin = tempMin;
         this.tempMax = tempMax;
         this.windSpeed = windSpeed;
-        this.time = LocalTime.now();
+        this.time = LocalDateTime.now();
     }
 
 
@@ -97,11 +100,11 @@ public class WeatherStatus {
         this.tempMax = tempMax;
     }
 
-    public LocalTime getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(LocalTime time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 
@@ -141,7 +144,7 @@ public class WeatherStatus {
                 "Temperature Min: " + tempMin + '\n' +
                 "Temperature Max: " + tempMax + '\n' +
                 "Wind speed: " + windSpeed + '\n' +
-                "Last call: " + time.getHour() + ":" + time.getMinute();
+                "Last call: " + time.toString();
 
     }
 }

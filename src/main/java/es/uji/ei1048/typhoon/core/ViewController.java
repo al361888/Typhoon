@@ -122,8 +122,6 @@ public class ViewController {
         day2Coord.setText("Day 2: \n"+ws.get(2).toString());
         day3Coord.setText("Day 3: \n"+ws.get(3).toString());
         weatherStatusCoord.setText("");
-
-
     }
 
     public void setMain(Main main){

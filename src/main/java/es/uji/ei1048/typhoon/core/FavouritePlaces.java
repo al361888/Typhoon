@@ -1,33 +1,42 @@
 package es.uji.ei1048.typhoon.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FavouritePlaces {
 
-    private List<City> favoritesCity;
-    private List<Coordinates> favoritesCoordinates;
+    private List<Place> favourites;
 
     public FavouritePlaces() {
+        favourites = new ArrayList<>();
     }
 
-    public FavouritePlaces(List<City> favoritesCity, List<Coordinates> favoritesCoordinates) {
-        this.favoritesCity = favoritesCity;
-        this.favoritesCoordinates = favoritesCoordinates;
+    public List<Place> getFavourites() {
+        return favourites;
     }
 
-    public List<City> getFavoritesCity() {
-        return favoritesCity;
+    public boolean addFavouriteCity(City city){
+        favourites.add(city);
+        //Anyadir a bbdd
+        return favourites.contains(city);
     }
 
-    public void setFavoritesCity(List<City> favoritesCity) {
-        this.favoritesCity = favoritesCity;
+    public boolean addFavouriteCoordinates(Coordinates coordinates){
+        favourites.add(coordinates);
+        //Cambiar bbdd
+        return favourites.contains(coordinates);
     }
 
-    public List<Coordinates> getFavoritesCoordinates() {
-        return favoritesCoordinates;
+
+    public Boolean deleteCity(City city) {
+        favourites.remove(city);
+        //Cambiar bbdd
+        return !favourites.contains(city);
     }
 
-    public void setFavoritesCoordinates(List<Coordinates> favoritesCoordinates) {
-        this.favoritesCoordinates = favoritesCoordinates;
+    public Boolean deleteCoord(Coordinates coord) {
+        favourites.remove(coord);
+        //Cambiar bbdd
+        return !favourites.contains(coord);
     }
 }

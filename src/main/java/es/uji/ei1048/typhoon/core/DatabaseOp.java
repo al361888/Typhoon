@@ -7,6 +7,7 @@ import es.uji.ei1048.typhoon.weather.WeatherStatus;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class DatabaseOp implements IDataBaseOp {
@@ -27,7 +28,7 @@ public class DatabaseOp implements IDataBaseOp {
 
     @Override
     public void insertCity(City city, WeatherStatus w){
-        String sql = "INSERT INTO weatherStatusCity(name, lastcall, temp, description, pressure, humidity, tempmin, tempmax, wind) VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO weatherStatusCity(name, lastcall, temp, description, pressure, humidity, tempmin, tempmax, wind) VALUES(?,?,?,?,?,?,?,?,?);";
         try (Connection conn = this.connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setString(1, city.getName().toLowerCase());
@@ -75,9 +76,10 @@ public class DatabaseOp implements IDataBaseOp {
              PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setString(1, city.getName().toLowerCase());
             ResultSet rs = pstmt.executeQuery();
+
             System.out.println("select city");
             return new WeatherStatus(rs.getString("description"), rs.getDouble("temp"), rs.getDouble("pressure"),
-                    rs.getDouble("humidity"), rs.getDouble("tempmin"), rs.getDouble("tempmax"), rs.getDouble("wind"), LocalTime.parse(rs.getString("lastcall")));
+                    rs.getDouble("humidity"), rs.getDouble("tempmin"), rs.getDouble("tempmax"), rs.getDouble("wind"), LocalDateTime.parse(rs.getString("lastcall")));
 
 
         } catch (SQLException e) {
@@ -96,9 +98,8 @@ public class DatabaseOp implements IDataBaseOp {
             pstmt.setDouble(2, coordinates.getLongitude());
 
             ResultSet rs = pstmt.executeQuery();
-
             return new WeatherStatus(rs.getString("description"), rs.getDouble("temp"), rs.getDouble("pressure"),
-                    rs.getDouble("humidity"), rs.getDouble("tempmin"), rs.getDouble("tempmax"), rs.getDouble("wind"), LocalTime.parse(rs.getString("lastcall")));
+                    rs.getDouble("humidity"), rs.getDouble("tempmin"), rs.getDouble("tempmax"), rs.getDouble("wind"), LocalDateTime.parse(rs.getString("lastcall")));
 
 
         } catch (SQLException e) {

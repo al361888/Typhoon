@@ -8,6 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static org.mockito.Mockito.*;
@@ -38,7 +39,7 @@ public class TimeConexionTest {
     public void CityUnknown() throws IOException, NoCityFoundException, StatusNotFound {
         City city = new City("x");
         when(dataBase.getStatusCity(city)).thenThrow(StatusNotFound.class);
-        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalTime.now());
+        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now());
         when(server.getCurrentWeatherAtCity(city)).thenReturn(status);
 
         WeatherStatus result = re.getStatusCity(city);
@@ -52,7 +53,7 @@ public class TimeConexionTest {
     public void CoordUnkown() throws StatusNotFound, IOException, InvalidCoordinatesException {
        Coordinates coord = new Coordinates(0.0, 0.0);
         when(dataBase.getStatusCoord(coord)).thenThrow(StatusNotFound.class);
-        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalTime.now());
+        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now());
         when(server.getCurrentWeatherAtCoordinates(coord)).thenReturn(status);
 
         WeatherStatus result = re.getStatusCoord(coord);
@@ -65,7 +66,7 @@ public class TimeConexionTest {
     @Test
     public void CityKnownCallDataBase() throws IOException, NoCityFoundException, StatusNotFound {
         City city = new City("x");
-        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalTime.now());
+        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now());
         when(dataBase.getStatusCity(city)).thenReturn(status);
 
         WeatherStatus result = re.getStatusCity(city);
@@ -81,7 +82,7 @@ public class TimeConexionTest {
     @Test
     public void CoordKnownCallDataBase() throws IOException, NoCityFoundException, StatusNotFound, InvalidCoordinatesException {
         Coordinates coordinates = new Coordinates(0.0, 0.0);
-        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalTime.now());
+        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now());
         when(dataBase.getStatusCoord(coordinates)).thenReturn(status);
 
         WeatherStatus result = re.getStatusCoord(coordinates);
@@ -98,8 +99,8 @@ public class TimeConexionTest {
     @Test
     public void CityKnownCallServer() throws IOException, NoCityFoundException, StatusNotFound {
         City city = new City("x");
-        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalTime.now());
-        when(dataBase.getStatusCity(city)).thenReturn(new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalTime.now().minusHours(2)));
+        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now());
+        when(dataBase.getStatusCity(city)).thenReturn(new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now().minusHours(2)));
         when(server.getCurrentWeatherAtCity(city)).thenReturn(status);
 
         WeatherStatus result = re.getStatusCity(city);
@@ -114,8 +115,8 @@ public class TimeConexionTest {
     @Test
     public void CoordKownCallServer() throws IOException, InvalidCoordinatesException, StatusNotFound {
         Coordinates coord = new Coordinates(0.0, 0.0);
-        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalTime.now());
-        when(dataBase.getStatusCoord(coord)).thenReturn(new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalTime.now().minusHours(2)));
+        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now());
+        when(dataBase.getStatusCoord(coord)).thenReturn(new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now().minusHours(2)));
         when(server.getCurrentWeatherAtCoordinates(coord)).thenReturn(status);
 
         WeatherStatus result = re.getStatusCoord(coord);

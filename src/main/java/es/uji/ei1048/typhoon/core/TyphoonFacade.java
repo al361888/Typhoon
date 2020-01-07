@@ -11,6 +11,7 @@ public class TyphoonFacade {
 
     private IRestrictionFunction restrictionFunction;
     private ForecastWeather forecastWeather = new ForecastWeather();
+    private FavouritePlaces favouritePlaces = new FavouritePlaces();
 
    public  TyphoonFacade(){
        IServerConexion serverConexion = new CurrentWeather();
@@ -29,7 +30,6 @@ public class TyphoonFacade {
         //Llamada al metodo de la clase CurrentWeather
         return restrictionFunction.getStatusCoord(coordinates);
 
-
         // throw new UnsupportedOperationException("Unimplemented");
     }
 
@@ -41,5 +41,28 @@ public class TyphoonFacade {
     public List<WeatherStatus> forecastWeatherCoord(Coordinates coordinates) throws IOException, InvalidCoordinatesException{
         return forecastWeather.getForecastWeatherAtCoordinates(coordinates);
         //throw new UnsupportedOperationException("Unimplemented");
+    }
+
+    public boolean addFavouriteCity(City city) throws NoCityFoundException, IOException{
+        //Llamada al metodo de la clase FavouritePlaces
+        return favouritePlaces.addFavouriteCity(city);
+    }
+
+    public boolean addFavouriteCoordinates(Coordinates coordinates) throws InvalidCoordinatesException, IOException{
+        //Llamada al metodo de la clase FavouritePlaces
+        return favouritePlaces.addFavouriteCoordinates(coordinates);
+    }
+
+    public List<Place> getFavouritePlaces(){
+        return favouritePlaces.getFavourites();
+    }
+
+    public Boolean deleteFavouriteCity(City city) {
+       return favouritePlaces.deleteCity(city);
+    }
+
+
+    public Boolean deleteFavouriteCoordinates(Coordinates coord) {
+       return favouritePlaces.deleteCoord(coord);
     }
 }

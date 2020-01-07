@@ -5,6 +5,7 @@ import jdk.vm.ci.meta.Local;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class RestrictionFunction implements IRestrictionFunction {
@@ -46,13 +47,13 @@ public class RestrictionFunction implements IRestrictionFunction {
     }
 
     private void checkLastCall(WeatherStatus status) throws StatusNotFound {
-        LocalTime now = LocalTime.now();
+        LocalDateTime now = LocalDateTime.now();
 
 
         int minutesNow = now.getHour()*60 + now.getMinute() + now.getSecond()/60;
         int minutes = status.getTime().getHour()*60 + status.getTime().getMinute() + status.getTime().getSecond()/60;
 
-        if(minutesNow - minutes > 30)
+        if(minutesNow - minutes > 30 || now.getDayOfYear() != status.getTime().getDayOfYear())
             throw new StatusNotFound();
 
     }
