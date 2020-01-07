@@ -25,7 +25,7 @@ public class RestrictionFunction implements IRestrictionFunction {
             WeatherStatus data = dataBase.getStatusCity(city);
             checkLastCall(data);
             return data;
-        }catch(NullPointerException ex){
+        }catch(StatusNotFound ex){
             WeatherStatus status = server.getCurrentWeatherAtCity(city);
             dataBase.insertCity(city, status);
             return status;
@@ -38,22 +38,22 @@ public class RestrictionFunction implements IRestrictionFunction {
             WeatherStatus data = dataBase.getStatusCoord(coordinates);
             checkLastCall(data);
             return data;
-        }catch(NullPointerException ex){
+        }catch(StatusNotFound ex){
             WeatherStatus status = server.getCurrentWeatherAtCoordinates(coordinates);
             dataBase.insertCoord(coordinates, status);
             return status;
         }
     }
 
-    private void checkLastCall(WeatherStatus status){
+    private void checkLastCall(WeatherStatus status) throws StatusNotFound {
         LocalTime now = LocalTime.now();
 
 
-        int minutesNow = now.getMinute() + now.getSecond()/60;
-        int minutes = status.getTime().getMinute() + status.getTime().getSecond()/60;
+        int minutesNow = now.getHour()*60 + now.getMinute() + now.getSecond()/60;
+        int minutes = status.getTime().getHour()*60 + status.getTime().getMinute() + status.getTime().getSecond()/60;
 
-        if(minutesNow - minutes > 30 || now.getHour() - status.getTime().getHour() >= 1)
-            throw new NullPointerException();
+        if(minutesNow - minutes > 30)
+            throw new StatusNotFound();
 
     }
 

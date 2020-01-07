@@ -69,7 +69,7 @@ public class DatabaseOp implements IDataBaseOp {
     }
 
     @Override
-    public WeatherStatus getStatusCity(City city) {
+    public WeatherStatus getStatusCity(City city) throws StatusNotFound {
         String sql = "SELECT lastcall, temp, description, pressure, humidity, tempmin, tempmax, wind FROM weatherStatusCity WHERE name = ?";
         try (Connection conn = this.connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -82,13 +82,13 @@ public class DatabaseOp implements IDataBaseOp {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return null;
+            throw new StatusNotFound();
         }
 
     }
 
     @Override
-    public WeatherStatus getStatusCoord(Coordinates coordinates) {
+    public WeatherStatus getStatusCoord(Coordinates coordinates) throws StatusNotFound {
         String sql = "SELECT lastcall, temp, description, pressure, humidity, tempmin, tempmax, wind FROM weatherStatusCoord WHERE latitude = ? and longitude = ?";
         try (Connection conn = this.connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -103,7 +103,7 @@ public class DatabaseOp implements IDataBaseOp {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return null;
+            throw new StatusNotFound();
         }
 
     }

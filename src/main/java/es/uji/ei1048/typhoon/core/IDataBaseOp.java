@@ -8,8 +8,8 @@ import java.sql.Connection;
 public interface IDataBaseOp {
     void insertCity(City city, WeatherStatus w);
     void insertCoord(Coordinates coordinates, WeatherStatus w);
-    WeatherStatus getStatusCity(City city);
-    WeatherStatus getStatusCoord(Coordinates coordinates);
+    WeatherStatus getStatusCity(City city) throws StatusNotFound;
+    WeatherStatus getStatusCoord(Coordinates coordinates) throws StatusNotFound;
     void deleteStatus(WeatherStatus status);
 
 
