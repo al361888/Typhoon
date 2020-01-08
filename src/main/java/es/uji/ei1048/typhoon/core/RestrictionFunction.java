@@ -28,6 +28,7 @@ public class RestrictionFunction implements IRestrictionFunction {
             return data;
         }catch(StatusNotFound ex){
             WeatherStatus status = server.getCurrentWeatherAtCity(city);
+            dataBase.deleteStatus(city);
             dataBase.insertCity(city, status);
             return status;
         }

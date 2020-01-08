@@ -5,16 +5,17 @@ import es.uji.ei1048.typhoon.weather.WeatherStatus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
 
-public class TimeConexionTest {
-
+public class ConexionTest {
     private IServerConexion server;
     private IDataBaseOp dataBase;
     private RestrictionFunction re;
@@ -32,39 +33,39 @@ public class TimeConexionTest {
         server = null;
         dataBase = null;
         re = null;
-
     }
 
-    @Test
+    @Test(expected = NoCityFoundException.class)
     public void CityUnknown() throws IOException, NoCityFoundException, StatusNotFound {
         City city = new City("x");
         when(dataBase.getStatusCity(city)).thenThrow(StatusNotFound.class);
         WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now());
-        when(server.getCurrentWeatherAtCity(city)).thenReturn(status);
+        when(server.getCurrentWeatherAtCity(city)).thenThrow(NoCityFoundException.class);
 
         WeatherStatus result = re.getStatusCity(city);
-        verify(server, times(1)).getCurrentWeatherAtCity(city);
-        verify(dataBase, times(1)).insertCity(city, status);
-        assertEquals(result, status);
+        verify(server, never()).getCurrentWeatherAtCity(city);
+        verify(dataBase, never()).insertCity(city, status);
+        assertNull(result);
+
 
     }
 
-    @Test
+    @Test(expected = InvalidCoordinatesException.class)
     public void CoordUnkown() throws StatusNotFound, IOException, InvalidCoordinatesException {
-       Coordinates coord = new Coordinates(0.0, 0.0);
+        Coordinates coord = new Coordinates(0.0, 0.0);
         when(dataBase.getStatusCoord(coord)).thenThrow(StatusNotFound.class);
         WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now());
-        when(server.getCurrentWeatherAtCoordinates(coord)).thenReturn(status);
+        when(server.getCurrentWeatherAtCoordinates(coord)).thenThrow(InvalidCoordinatesException.class);
 
         WeatherStatus result = re.getStatusCoord(coord);
         verify(server, times(1)).getCurrentWeatherAtCoordinates(coord);
         verify(dataBase, times(1)).insertCoord(coord, status);
-        assertEquals(result, status);
+        assertNull(result);
 
     }
 
     @Test
-    public void CityKnownCallDataBase() throws IOException, NoCityFoundException, StatusNotFound {
+    public void CityKnown() throws IOException, NoCityFoundException, StatusNotFound {
         City city = new City("x");
         WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now());
         when(dataBase.getStatusCity(city)).thenReturn(status);
@@ -77,7 +78,7 @@ public class TimeConexionTest {
     }
 
     @Test
-    public void CoordKnownCallDataBase() throws IOException, NoCityFoundException, StatusNotFound, InvalidCoordinatesException {
+    public void CoordKnown() throws IOException, NoCityFoundException, StatusNotFound, InvalidCoordinatesException {
         Coordinates coordinates = new Coordinates(0.0, 0.0);
         WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now());
         when(dataBase.getStatusCoord(coordinates)).thenReturn(status);
@@ -90,39 +91,5 @@ public class TimeConexionTest {
 
 
     }
-
-
-
-    @Test
-    public void CityKnownCallServer() throws IOException, NoCityFoundException, StatusNotFound {
-        City city = new City("x");
-        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now());
-        when(dataBase.getStatusCity(city)).thenReturn(new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now().minusHours(2)));
-        when(server.getCurrentWeatherAtCity(city)).thenReturn(status);
-
-        WeatherStatus result = re.getStatusCity(city);
-        verify(server, times(1)).getCurrentWeatherAtCity(city);
-        verify(dataBase, times(1)).insertCity(city, status);
-        verify(dataBase, times(1)).getStatusCity(city);
-        assertEquals(result, status);
-
-
-    }
-
-    @Test
-    public void CoordKownCallServer() throws IOException, InvalidCoordinatesException, StatusNotFound {
-        Coordinates coord = new Coordinates(0.0, 0.0);
-        WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now());
-        when(dataBase.getStatusCoord(coord)).thenReturn(new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now().minusHours(2)));
-        when(server.getCurrentWeatherAtCoordinates(coord)).thenReturn(status);
-
-        WeatherStatus result = re.getStatusCoord(coord);
-        verify(server, times(1)).getCurrentWeatherAtCoordinates(coord);
-        verify(dataBase, times(1)).insertCoord(coord, status);
-        verify(dataBase, times(1)).getStatusCoord(coord);
-        assertEquals(result, status);
-    }
-
-
 
 }

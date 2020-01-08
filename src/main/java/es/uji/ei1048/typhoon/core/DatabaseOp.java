@@ -9,12 +9,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseOp implements IDataBaseOp {
 
     private Connection connectDB(){
         // SQLite connection string
-        String url = "jdbc:sqlite::resource:typhoon.db";
+        String url = "jdbc:sqlite:C:\\Users\\mario\\IdeaProjects\\WeatherApp\\src\\main\\resources\\typhoon.db";
         Connection conn = null;
         try {
             Class.forName("org.sqlite.JDBC");
@@ -49,7 +51,7 @@ public class DatabaseOp implements IDataBaseOp {
 
     @Override
     public void insertCoord(Coordinates coordinates, WeatherStatus w){
-        String sql = "INSERT INTO weatherStatusCoord(latitude, longitude, lastcall, temp, description, pressure, humidity, tempmin, tempmax, wind) VALUES(?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO weatherStatusCoord(latitude, longitude, lastcall, temp, description, pressure, humidity, tempmin, tempmax, wind) VALUES(?,?,?,?,?,?,?,?,?,?);";
         try (Connection conn = this.connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setDouble(1, coordinates.getLatitude());
@@ -71,7 +73,7 @@ public class DatabaseOp implements IDataBaseOp {
 
     @Override
     public WeatherStatus getStatusCity(City city) throws StatusNotFound {
-        String sql = "SELECT lastcall, temp, description, pressure, humidity, tempmin, tempmax, wind FROM weatherStatusCity WHERE name = ?";
+        String sql = "SELECT lastcall, temp, description, pressure, humidity, tempmin, tempmax, wind FROM weatherStatusCity WHERE name = ?;";
         try (Connection conn = this.connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setString(1, city.getName().toLowerCase());
@@ -91,7 +93,7 @@ public class DatabaseOp implements IDataBaseOp {
 
     @Override
     public WeatherStatus getStatusCoord(Coordinates coordinates) throws StatusNotFound {
-        String sql = "SELECT lastcall, temp, description, pressure, humidity, tempmin, tempmax, wind FROM weatherStatusCoord WHERE latitude = ? and longitude = ?";
+        String sql = "SELECT lastcall, temp, description, pressure, humidity, tempmin, tempmax, wind FROM weatherStatusCoord WHERE latitude = ? and longitude = ?;";
         try (Connection conn = this.connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setDouble(1, coordinates.getLatitude());
@@ -110,11 +112,77 @@ public class DatabaseOp implements IDataBaseOp {
     }
 
     @Override
-    public void deleteStatus(WeatherStatus status){
-        String sql = "DELETE FROM weatherStatusCity WHERE lastcall <= ?";
+    public void updateFavouriteCity(City city) {
+        String sql = "UPDATE weatherStatusCity SET favorite = 1 WHERE name = ? ;";
         try (Connection conn = this.connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setString(1, status.getTime().toString());
+            pstmt.setString(1, city.getName());
+            pstmt.executeUpdate();
+
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Override
+    public void updateFavouriteCoord(Coordinates coordinates) {
+        String sql = "UPDATE weatherStatusCoord SET favorite = 1 WHERE latitude = ? AND longitude = ?;";
+        try (Connection conn = this.connectDB();
+             PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setDouble(1, coordinates.getLatitude());
+            pstmt.setDouble(2, coordinates.getLongitude());
+            pstmt.executeUpdate();
+
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Override
+    public void deleteFavouriteCity(City city) {
+        String sql = "UPDATE weatherStatusCity SET favorite = 0 WHERE name = ? AND favorite = 1;";
+        try (Connection conn = this.connectDB();
+             PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setString(1, city.getName());
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+        }
+
+    }
+
+    @Override
+    public List<City> getFavouriteCity(){
+        String sql = "SELECT DISTINCT(name) FROM weatherStatusCity where favorite = 1;";
+        try (Connection conn = this.connectDB();
+             PreparedStatement pstmt = conn.prepareStatement(sql)){
+            ResultSet rs = pstmt.executeQuery();
+            List<City> cities = new ArrayList<>();
+            while(rs.next()){
+                cities.add(new City(rs.getString("name")));
+            }
+            System.out.println("cities");
+            return cities;
+
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+    }
+
+
+    @Override
+    public void deleteStatus(City city){
+        String sql = "DELETE FROM weatherStatusCity WHERE name = ?;";
+        try (Connection conn = this.connectDB();
+             PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setString(1, city.getName());
             pstmt.executeUpdate();
             System.out.println("deleting");
         } catch (SQLException e) {

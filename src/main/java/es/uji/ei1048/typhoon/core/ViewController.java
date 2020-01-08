@@ -1,16 +1,17 @@
 package es.uji.ei1048.typhoon.core;
 
 import es.uji.ei1048.typhoon.weather.WeatherStatus;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +50,18 @@ public class ViewController {
     private Button coordForecastButton;
 
     @FXML
+    private Button favCity;
+
+    @FXML
+    private Button deleteFav;
+
+    @FXML
+    private RadioButton favCoord;
+
+    @FXML
+    private ListView<String> favourites;
+
+    @FXML
     private Label weatherStatusCoord;
 
     @FXML
@@ -62,14 +75,32 @@ public class ViewController {
     private Main main;
     private TyphoonFacade typhoonFacade = new TyphoonFacade();
 
+
+    public ViewController() {
+    }
+
+    @FXML
+    private void initialize(){
+        favourites.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> showFavouritePlace(newValue));
+
+
+    }
+
+    private void showFavouritePlace(String newValue) {
+        nameCity.setText(newValue);
+    }
+
+
     @FXML
     private void sendCurrentWeatherStatusCity(ActionEvent event) throws IOException {
         WeatherStatus ws = new WeatherStatus();
         try {
             ws = typhoonFacade.currentWeatherCity(new City(nameCity.getText()));
         } catch (NoCityFoundException e) {
-            weatherResultCity.setText("ERROR: City not found");
+            weatherResultCity.setText("ERROR: City not found.");
         }
+
         weatherResultCity.setText(ws.toString());
         day1City.setText("");
         day2City.setText("");
@@ -124,7 +155,30 @@ public class ViewController {
         weatherStatusCoord.setText("");
     }
 
+    @FXML
+    private void updateFavouriteCity(ActionEvent event){
+        typhoonFacade.addFavouriteCity(new City(nameCity.getText().toLowerCase()));
+        //refreshList();
+        favourites.getItems().add(nameCity.getText().toLowerCase());
+    }
+
+    @FXML
+    private void updateFavouriteCoord(ActionEvent event){
+        typhoonFacade.addFavouriteCoordinates(new Coordinates(Double.parseDouble(lat.getText()), Double.parseDouble(lon.getText())));
+    }
+
+    @FXML
+    private void deleteFavouritePlace(ActionEvent event){
+        typhoonFacade.deleteFavouriteCity(new City(favourites.getSelectionModel().getSelectedItem()));
+        int selectedIndex = favourites.getSelectionModel().getSelectedIndex();
+        favourites.getItems().remove(selectedIndex);
+
+    }
+
+
+
     public void setMain(Main main){
         this.main = main;
+        favourites.setItems(main.getPlaces());
     }
 }

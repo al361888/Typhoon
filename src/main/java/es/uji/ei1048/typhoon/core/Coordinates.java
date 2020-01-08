@@ -25,4 +25,9 @@ public class Coordinates implements Place {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
+    @Override
+    public String getName() {
+        return latitude+", "+longitude;
+    }
 }

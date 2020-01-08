@@ -43,12 +43,12 @@ public class TyphoonFacade {
         //throw new UnsupportedOperationException("Unimplemented");
     }
 
-    public boolean addFavouriteCity(City city) throws NoCityFoundException, IOException{
+    public boolean addFavouriteCity(City city){
         //Llamada al metodo de la clase FavouritePlaces
         return favouritePlaces.addFavouriteCity(city);
     }
 
-    public boolean addFavouriteCoordinates(Coordinates coordinates) throws InvalidCoordinatesException, IOException{
+    public boolean addFavouriteCoordinates(Coordinates coordinates){
         //Llamada al metodo de la clase FavouritePlaces
         return favouritePlaces.addFavouriteCoordinates(coordinates);
     }

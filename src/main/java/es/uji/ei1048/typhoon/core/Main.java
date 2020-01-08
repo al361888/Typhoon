@@ -1,6 +1,9 @@
 package es.uji.ei1048.typhoon.core;
 
 import javafx.application.Application;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -8,20 +11,42 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
 
+    private TyphoonFacade typhoonFacade = new TyphoonFacade();
+    private ObservableList<String> places = FXCollections.observableArrayList();
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Typhoon");
 
+        initFavourites();
+
         initRootLayout();
 
         showCurrentWeather();
+
+
+    }
+
+    private void initFavourites() {
+        List<String> cities = new ArrayList<>();
+        List<Place> placesFavourites = typhoonFacade.getFavouritePlaces();
+        for(int i=0; i<placesFavourites.size();i++)
+            cities.add(placesFavourites.get(i).getName());
+
+        places.addAll(cities);
+    }
+
+    public ObservableList<String> getPlaces(){
+        return places;
     }
 
     /**
@@ -77,4 +102,5 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
 }
