@@ -40,13 +40,12 @@ public class Main extends Application {
     private void initFavourites() {
         List<String> cities = new ArrayList<>();
         List<Place> placesFavourites = typhoonFacade.getFavouritePlaces();
-        for(int i=0; i<placesFavourites.size();i++)
-            cities.add(placesFavourites.get(i).getName());
+        for (Place placesFavourite : placesFavourites) cities.add(placesFavourite.getName());
 
         places.addAll(cities);
     }
 
-    public ObservableList<String> getPlaces(){
+    ObservableList<String> getPlaces(){
         return places;
     }
 

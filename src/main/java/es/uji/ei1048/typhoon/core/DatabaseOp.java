@@ -193,6 +193,27 @@ public class DatabaseOp implements IDataBaseOp {
 
     }
 
+    @Override
+    public List<Coordinates> getFavouriteCoord(){
+        String sql = "SELECT latitude,  longitude FROM weatherStatusCoord where favorite = 1;";
+        try (Connection conn = this.connectDB();
+             PreparedStatement pstmt = conn.prepareStatement(sql)){
+            ResultSet rs = pstmt.executeQuery();
+            List<Coordinates> coordinates = new ArrayList<>();
+            while(rs.next()){
+                coordinates.add(new Coordinates(rs.getDouble("latitude"), rs.getDouble("longitude")));
+            }
+            System.out.println("coords");
+            return coordinates;
+
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+    }
+
 
     @Override
     public void deleteStatus(City city){

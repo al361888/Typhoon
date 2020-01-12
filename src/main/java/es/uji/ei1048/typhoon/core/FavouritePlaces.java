@@ -15,6 +15,7 @@ public class FavouritePlaces {
 
     public List<Place> getFavourites() {
         favourites.addAll(database.getFavouriteCity());
+        favourites.addAll(database.getFavouriteCoord());
         return favourites;
     }
 

@@ -28,6 +28,6 @@ public class Coordinates implements Place {
 
     @Override
     public String getName() {
-        return latitude+", "+longitude;
+        return latitude+","+longitude;
     }
 }

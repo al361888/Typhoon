@@ -193,7 +193,6 @@ public class ViewController {
     }
 
 
-
     public void setMain(Main main){
         this.main = main;
         favourites.setItems(main.getPlaces());
