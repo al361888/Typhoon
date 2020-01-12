@@ -14,6 +14,7 @@ public interface IDataBaseOp {
     void updateFavouriteCity(City city);
     void updateFavouriteCoord(Coordinates coordinates);
     void deleteFavouriteCity(City city);
+    void deleteFavouriteCoord(Coordinates coordinates);
     public List<City> getFavouriteCity();
     void deleteStatus(City city);
 

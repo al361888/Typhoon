@@ -56,7 +56,7 @@ public class ViewController {
     private Button deleteFav;
 
     @FXML
-    private RadioButton favCoord;
+    private Button favCoord;
 
     @FXML
     private ListView<String> favourites;
@@ -84,11 +84,16 @@ public class ViewController {
         favourites.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showFavouritePlace(newValue));
 
-
     }
 
     private void showFavouritePlace(String newValue) {
-        nameCity.setText(newValue);
+        String[] res = newValue.split(",");
+        if(res.length>1){
+            lat.setText(res[0]);
+            lon.setText(res[1]);
+        }else{
+            nameCity.setText(newValue);
+        }
     }
 
 
@@ -158,20 +163,32 @@ public class ViewController {
     @FXML
     private void updateFavouriteCity(ActionEvent event){
         typhoonFacade.addFavouriteCity(new City(nameCity.getText().toLowerCase()));
-        //refreshList();
         favourites.getItems().add(nameCity.getText().toLowerCase());
     }
 
     @FXML
     private void updateFavouriteCoord(ActionEvent event){
         typhoonFacade.addFavouriteCoordinates(new Coordinates(Double.parseDouble(lat.getText()), Double.parseDouble(lon.getText())));
+        favourites.getItems().add(lat.getText()+","+lon.getText());
     }
 
     @FXML
     private void deleteFavouritePlace(ActionEvent event){
-        typhoonFacade.deleteFavouriteCity(new City(favourites.getSelectionModel().getSelectedItem()));
-        int selectedIndex = favourites.getSelectionModel().getSelectedIndex();
-        favourites.getItems().remove(selectedIndex);
+        String[] res = favourites.getSelectionModel().getSelectedItem().split(",");
+        if(res.length>1){
+            String lat = res[0];
+            String lon = res[1];
+            typhoonFacade.deleteFavouriteCoordinates(new Coordinates(Double.parseDouble(lat), Double.parseDouble(lon)));
+            int selectedIndex = favourites.getSelectionModel().getSelectedIndex();
+            favourites.getItems().remove(selectedIndex);
+        }else{
+            typhoonFacade.deleteFavouriteCity(new City(favourites.getSelectionModel().getSelectedItem()));
+            int selectedIndex = favourites.getSelectionModel().getSelectedIndex();
+            favourites.getItems().remove(selectedIndex);
+
+        }
+
+
 
     }
 

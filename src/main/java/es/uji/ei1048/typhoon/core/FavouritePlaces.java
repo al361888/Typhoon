@@ -43,6 +43,7 @@ public class FavouritePlaces {
     public Boolean deleteCoord(Coordinates coord) {
         favourites.remove(coord);
         //Cambiar bbdd
+        database.updateFavouriteCoord(coord);
         return !favourites.contains(coord);
     }
 }

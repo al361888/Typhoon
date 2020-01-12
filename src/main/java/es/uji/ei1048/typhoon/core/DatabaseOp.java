@@ -16,6 +16,7 @@ public class DatabaseOp implements IDataBaseOp {
 
     private Connection connectDB(){
         // SQLite connection string
+        //Aqui se tiene que poner la url que sale en properties de la base de datos
         String url = "jdbc:sqlite:C:\\Users\\mario\\IdeaProjects\\WeatherApp\\src\\main\\resources\\typhoon.db";
         Connection conn = null;
         try {
@@ -156,6 +157,22 @@ public class DatabaseOp implements IDataBaseOp {
     }
 
     @Override
+    public void deleteFavouriteCoord(Coordinates coordinates) {
+        String sql = "UPDATE weatherStatusCoord SET favorite = 0 WHERE latitude = ? AND longitude = ? AND favorite = 1;";
+        try (Connection conn = this.connectDB();
+             PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setDouble(1, coordinates.getLatitude());
+            pstmt.setDouble(1, coordinates.getLongitude());
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+        }
+
+    }
+
+    @Override
     public List<City> getFavouriteCity(){
         String sql = "SELECT DISTINCT(name) FROM weatherStatusCity where favorite = 1;";
         try (Connection conn = this.connectDB();
@@ -179,7 +196,7 @@ public class DatabaseOp implements IDataBaseOp {
 
     @Override
     public void deleteStatus(City city){
-        String sql = "DELETE FROM weatherStatusCity WHERE name = ?;";
+        String sql = "DELETE FROM weatherStatusCity WHERE name = ? AND favorite = 0;";
         try (Connection conn = this.connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setString(1, city.getName());
