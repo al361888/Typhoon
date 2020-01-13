@@ -16,6 +16,11 @@ public class FavouritePlaces {
         database = new DatabaseOp();
     }
 
+    public FavouritePlaces(IDataBaseOp database) {
+        favourites = new ArrayList<>();
+        this.database = database;
+    }
+
     public List<Place> getFavourites() {
         favourites.addAll(database.getFavouriteCity());
         favourites.addAll(database.getFavouriteCoord());
@@ -47,7 +52,7 @@ public class FavouritePlaces {
     public Boolean deleteCoord(Coordinates coord) {
         favourites.remove(coord);
         //Cambiar bbdd
-        database.updateFavouriteCoord(coord);
+        database.deleteFavouriteCoord(coord);
         return !favourites.contains(coord);
     }
 }

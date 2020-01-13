@@ -156,11 +156,11 @@ public class DatabaseOp implements IDataBaseOp {
 
     @Override
     public void deleteFavouriteCoord(Coordinates coordinates) {
-        String sql = "UPDATE weatherStatusCoord SET favorite = 0 WHERE latitude = ? AND longitude = ? AND favorite = 1;";
+        String sql = "UPDATE weatherStatusCoord SET favorite = 0 WHERE latitude = ? AND longitude = ?;";
         try (Connection conn = this.connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setDouble(1, coordinates.getLatitude());
-            pstmt.setDouble(1, coordinates.getLongitude());
+            pstmt.setDouble(2, coordinates.getLongitude());
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
