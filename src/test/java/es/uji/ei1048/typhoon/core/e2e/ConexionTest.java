@@ -1,13 +1,19 @@
 package es.uji.ei1048.typhoon.core.e2e;
 
 import es.uji.ei1048.typhoon.core.*;
+import es.uji.ei1048.typhoon.core.exception.InvalidCoordinatesException;
+import es.uji.ei1048.typhoon.core.exception.NoCityFoundException;
+import es.uji.ei1048.typhoon.core.exception.StatusNotFoundException;
+import es.uji.ei1048.typhoon.core.model.City;
+import es.uji.ei1048.typhoon.core.model.Coordinates;
+import es.uji.ei1048.typhoon.core.conexion.IDataBaseOp;
+import es.uji.ei1048.typhoon.core.conexion.IServerConexion;
 import es.uji.ei1048.typhoon.weather.WeatherStatus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 
 import static org.junit.Assert.assertEquals;
@@ -36,9 +42,9 @@ public class ConexionTest {
     }
 
     @Test(expected = NoCityFoundException.class)
-    public void CityUnknown() throws IOException, NoCityFoundException, StatusNotFound {
+    public void CityUnknown() throws IOException, NoCityFoundException, StatusNotFoundException {
         City city = new City("x");
-        when(dataBase.getStatusCity(city)).thenThrow(StatusNotFound.class);
+        when(dataBase.getStatusCity(city)).thenThrow(StatusNotFoundException.class);
         WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now());
         when(server.getCurrentWeatherAtCity(city)).thenThrow(NoCityFoundException.class);
 
@@ -51,9 +57,9 @@ public class ConexionTest {
     }
 
     @Test(expected = InvalidCoordinatesException.class)
-    public void CoordUnkown() throws StatusNotFound, IOException, InvalidCoordinatesException {
+    public void CoordUnkown() throws StatusNotFoundException, IOException, InvalidCoordinatesException {
         Coordinates coord = new Coordinates(0.0, 0.0);
-        when(dataBase.getStatusCoord(coord)).thenThrow(StatusNotFound.class);
+        when(dataBase.getStatusCoord(coord)).thenThrow(StatusNotFoundException.class);
         WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now());
         when(server.getCurrentWeatherAtCoordinates(coord)).thenThrow(InvalidCoordinatesException.class);
 
@@ -65,7 +71,7 @@ public class ConexionTest {
     }
 
     @Test
-    public void CityKnown() throws IOException, NoCityFoundException, StatusNotFound {
+    public void CityKnown() throws IOException, NoCityFoundException, StatusNotFoundException {
         City city = new City("x");
         WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now());
         when(dataBase.getStatusCity(city)).thenReturn(status);
@@ -78,7 +84,7 @@ public class ConexionTest {
     }
 
     @Test
-    public void CoordKnown() throws IOException, NoCityFoundException, StatusNotFound, InvalidCoordinatesException {
+    public void CoordKnown() throws IOException, NoCityFoundException, StatusNotFoundException, InvalidCoordinatesException {
         Coordinates coordinates = new Coordinates(0.0, 0.0);
         WeatherStatus status = new WeatherStatus("x", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, LocalDateTime.now());
         when(dataBase.getStatusCoord(coordinates)).thenReturn(status);

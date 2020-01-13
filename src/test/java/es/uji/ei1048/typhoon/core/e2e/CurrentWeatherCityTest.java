@@ -1,7 +1,7 @@
 package es.uji.ei1048.typhoon.core.e2e;
 
-import es.uji.ei1048.typhoon.core.City;
-import es.uji.ei1048.typhoon.core.NoCityFoundException;
+import es.uji.ei1048.typhoon.core.model.City;
+import es.uji.ei1048.typhoon.core.exception.NoCityFoundException;
 import es.uji.ei1048.typhoon.core.TyphoonFacade;
 import es.uji.ei1048.typhoon.weather.WeatherStatus;
 import org.junit.After;
@@ -9,12 +9,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mockito.internal.matchers.Null;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 
 import static org.junit.Assert.*;
 

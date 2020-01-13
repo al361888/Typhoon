@@ -1,4 +1,4 @@
-package es.uji.ei1048.typhoon.core;
+package es.uji.ei1048.typhoon.core.model;
 
 public class Coordinates implements Place {
 

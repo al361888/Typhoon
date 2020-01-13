@@ -1,11 +1,11 @@
 package es.uji.ei1048.typhoon.core;
 
+import es.uji.ei1048.typhoon.core.exception.InvalidCoordinatesException;
+import es.uji.ei1048.typhoon.core.exception.NoCityFoundException;
+import es.uji.ei1048.typhoon.core.model.City;
 import es.uji.ei1048.typhoon.weather.WeatherStatus;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 
 public class Demo {
 

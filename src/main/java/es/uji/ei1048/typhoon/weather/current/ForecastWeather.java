@@ -1,9 +1,9 @@
 package es.uji.ei1048.typhoon.weather.current;
 
-import es.uji.ei1048.typhoon.core.City;
-import es.uji.ei1048.typhoon.core.Coordinates;
-import es.uji.ei1048.typhoon.core.InvalidCoordinatesException;
-import es.uji.ei1048.typhoon.core.NoCityFoundException;
+import es.uji.ei1048.typhoon.core.model.City;
+import es.uji.ei1048.typhoon.core.model.Coordinates;
+import es.uji.ei1048.typhoon.core.exception.InvalidCoordinatesException;
+import es.uji.ei1048.typhoon.core.exception.NoCityFoundException;
 import es.uji.ei1048.typhoon.weather.WeatherStatus;
 import org.json.JSONArray;
 import org.json.JSONObject;

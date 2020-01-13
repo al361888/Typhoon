@@ -1,5 +1,15 @@
 package es.uji.ei1048.typhoon.core;
 
+import es.uji.ei1048.typhoon.core.exception.InvalidCoordinatesException;
+import es.uji.ei1048.typhoon.core.exception.NoCityFoundException;
+import es.uji.ei1048.typhoon.core.model.City;
+import es.uji.ei1048.typhoon.core.model.Coordinates;
+import es.uji.ei1048.typhoon.core.model.FavouritePlaces;
+import es.uji.ei1048.typhoon.core.model.Place;
+import es.uji.ei1048.typhoon.core.conexion.DatabaseOp;
+import es.uji.ei1048.typhoon.core.conexion.IDataBaseOp;
+import es.uji.ei1048.typhoon.core.conexion.IRestrictionFunction;
+import es.uji.ei1048.typhoon.core.conexion.IServerConexion;
 import es.uji.ei1048.typhoon.weather.WeatherStatus;
 import es.uji.ei1048.typhoon.weather.current.CurrentWeather;
 import es.uji.ei1048.typhoon.weather.current.ForecastWeather;

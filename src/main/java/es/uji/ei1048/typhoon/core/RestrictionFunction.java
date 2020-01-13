@@ -1,12 +1,17 @@
 package es.uji.ei1048.typhoon.core;
 
+import es.uji.ei1048.typhoon.core.exception.InvalidCoordinatesException;
+import es.uji.ei1048.typhoon.core.exception.NoCityFoundException;
+import es.uji.ei1048.typhoon.core.exception.StatusNotFoundException;
+import es.uji.ei1048.typhoon.core.model.City;
+import es.uji.ei1048.typhoon.core.model.Coordinates;
+import es.uji.ei1048.typhoon.core.conexion.IDataBaseOp;
+import es.uji.ei1048.typhoon.core.conexion.IRestrictionFunction;
+import es.uji.ei1048.typhoon.core.conexion.IServerConexion;
 import es.uji.ei1048.typhoon.weather.WeatherStatus;
-import jdk.vm.ci.meta.Local;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class RestrictionFunction implements IRestrictionFunction {
 
@@ -26,7 +31,7 @@ public class RestrictionFunction implements IRestrictionFunction {
             WeatherStatus data = dataBase.getStatusCity(city);
             checkLastCall(data);
             return data;
-        }catch(StatusNotFound ex){
+        }catch(StatusNotFoundException ex){
             WeatherStatus status = server.getCurrentWeatherAtCity(city);
             dataBase.deleteStatus(city);
             dataBase.insertCity(city, status);
@@ -40,14 +45,14 @@ public class RestrictionFunction implements IRestrictionFunction {
             WeatherStatus data = dataBase.getStatusCoord(coordinates);
             checkLastCall(data);
             return data;
-        }catch(StatusNotFound ex){
+        }catch(StatusNotFoundException ex){
             WeatherStatus status = server.getCurrentWeatherAtCoordinates(coordinates);
             dataBase.insertCoord(coordinates, status);
             return status;
         }
     }
 
-    private void checkLastCall(WeatherStatus status) throws StatusNotFound {
+    private void checkLastCall(WeatherStatus status) throws StatusNotFoundException {
         LocalDateTime now = LocalDateTime.now();
 
 
@@ -55,7 +60,7 @@ public class RestrictionFunction implements IRestrictionFunction {
         int minutes = status.getTime().getHour()*60 + status.getTime().getMinute() + status.getTime().getSecond()/60;
 
         if(minutesNow - minutes > 30 || now.getDayOfYear() != status.getTime().getDayOfYear())
-            throw new StatusNotFound();
+            throw new StatusNotFoundException();
 
     }
 

@@ -1,6 +1,8 @@
 package es.uji.ei1048.typhoon.core.e2e;
 
 import es.uji.ei1048.typhoon.core.*;
+import es.uji.ei1048.typhoon.core.exception.InvalidCoordinatesException;
+import es.uji.ei1048.typhoon.core.model.Coordinates;
 import es.uji.ei1048.typhoon.weather.WeatherStatus;
 import org.junit.After;
 import org.junit.Before;
@@ -9,8 +11,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 

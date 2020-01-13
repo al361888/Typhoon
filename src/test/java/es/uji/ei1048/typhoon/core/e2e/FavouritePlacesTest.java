@@ -1,7 +1,11 @@
 package es.uji.ei1048.typhoon.core.e2e;
 
 import es.uji.ei1048.typhoon.core.*;
-import es.uji.ei1048.typhoon.weather.WeatherStatus;
+import es.uji.ei1048.typhoon.core.exception.InvalidCoordinatesException;
+import es.uji.ei1048.typhoon.core.exception.NoCityFoundException;
+import es.uji.ei1048.typhoon.core.model.City;
+import es.uji.ei1048.typhoon.core.model.Coordinates;
+import es.uji.ei1048.typhoon.core.model.FavouritePlaces;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;

@@ -1,4 +1,7 @@
-package es.uji.ei1048.typhoon.core;
+package es.uji.ei1048.typhoon.core.model;
+
+import es.uji.ei1048.typhoon.core.conexion.DatabaseOp;
+import es.uji.ei1048.typhoon.core.conexion.IDataBaseOp;
 
 import java.util.ArrayList;
 import java.util.List;

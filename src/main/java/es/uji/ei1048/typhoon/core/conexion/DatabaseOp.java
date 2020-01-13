@@ -1,14 +1,12 @@
-package es.uji.ei1048.typhoon.core;
+package es.uji.ei1048.typhoon.core.conexion;
 
-import es.uji.ei1048.typhoon.core.City;
-import es.uji.ei1048.typhoon.core.Coordinates;
-import es.uji.ei1048.typhoon.core.IDataBaseOp;
+import es.uji.ei1048.typhoon.core.exception.StatusNotFoundException;
+import es.uji.ei1048.typhoon.core.model.City;
+import es.uji.ei1048.typhoon.core.model.Coordinates;
 import es.uji.ei1048.typhoon.weather.WeatherStatus;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +71,7 @@ public class DatabaseOp implements IDataBaseOp {
     }
 
     @Override
-    public WeatherStatus getStatusCity(City city) throws StatusNotFound {
+    public WeatherStatus getStatusCity(City city) throws StatusNotFoundException {
         String sql = "SELECT lastcall, temp, description, pressure, humidity, tempmin, tempmax, wind FROM weatherStatusCity WHERE name = ?;";
         try (Connection conn = this.connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -87,13 +85,13 @@ public class DatabaseOp implements IDataBaseOp {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            throw new StatusNotFound();
+            throw new StatusNotFoundException();
         }
 
     }
 
     @Override
-    public WeatherStatus getStatusCoord(Coordinates coordinates) throws StatusNotFound {
+    public WeatherStatus getStatusCoord(Coordinates coordinates) throws StatusNotFoundException {
         String sql = "SELECT lastcall, temp, description, pressure, humidity, tempmin, tempmax, wind FROM weatherStatusCoord WHERE latitude = ? and longitude = ?;";
         try (Connection conn = this.connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -107,7 +105,7 @@ public class DatabaseOp implements IDataBaseOp {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            throw new StatusNotFound();
+            throw new StatusNotFoundException();
         }
 
     }

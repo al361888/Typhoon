@@ -1,4 +1,4 @@
-package es.uji.ei1048.typhoon.core;
+package es.uji.ei1048.typhoon.core.exception;
 
 public class NoCityFoundException extends Exception{
     public NoCityFoundException() {

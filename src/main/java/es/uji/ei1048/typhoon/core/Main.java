@@ -1,5 +1,6 @@
 package es.uji.ei1048.typhoon.core;
 
+import es.uji.ei1048.typhoon.core.model.Place;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
